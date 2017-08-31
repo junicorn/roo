@@ -36,7 +36,8 @@ public class DbConfig implements BeanProcessor {
         Map<String, String> map         = environment.toMap();
         if (map.containsKey("jdbc.database")) {
             JdbcConfig jdbcConfig = JdbcConfig.builder()
-                    .driver("com.mysql.jdbc.Driver")
+                   // .driver("com.mysql.jdbc.Driver")
+				    .driver("org.postgresql.Driver") //heroku专用
                     .host(map.get("jdbc.host"))
                     .port(map.get("jdbc.port"))
                     .username(map.get("jdbc.username"))
