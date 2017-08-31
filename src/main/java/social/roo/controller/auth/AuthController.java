@@ -9,12 +9,12 @@ import com.blade.mvc.ui.RestResponse;
 import com.blade.patchca.DefaultPatchca;
 import com.blade.patchca.Patchca;
 import com.blade.validator.annotation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import social.roo.model.entity.Actived;
 import social.roo.model.entity.User;
 import social.roo.model.param.SigninParam;
 import social.roo.model.param.SignupParam;
 import social.roo.service.AccountService;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
 
@@ -36,8 +36,7 @@ public class AuthController {
     @GetRoute("patchca")
     public void patchca(Request request, Response response) {
         try {
-            String code = patchca.token(response);
-            request.attribute("vcode", code);
+            patchca.render(request, response);
         } catch (Exception e) {
             log.error("Create patchca fail", e);
         }
@@ -110,7 +109,7 @@ public class AuthController {
     }
 
     @GetRoute("logout")
-    public void logout(Session session, Response response){
+    public void logout(Session session, Response response) {
         session.removeAttribute("login_user");
         response.redirect("/");
     }
