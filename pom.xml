@@ -22,6 +22,7 @@
             <artifactId>blade-mvc</artifactId>
             <version>${blade-mvc.version}</version>
         </dependency>
+        <!-- blade jetbrick template -->
         <dependency>
             <groupId>com.bladejava</groupId>
             <artifactId>blade-template-jetbrick</artifactId>
