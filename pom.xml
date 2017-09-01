@@ -16,6 +16,7 @@
     </properties>
 
     <dependencies>
+        <!-- mvc dependency -->
         <dependency>
             <groupId>com.bladejava</groupId>
             <artifactId>blade-mvc</artifactId>
