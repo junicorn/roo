@@ -16,10 +16,20 @@ import java.util.Date;
 @Table(value = "roo_logs")
 public class SysLog extends ActiveRecord {
 
+
     private Long   id;
     private String title;
+    /**
+     * 日志内容
+     */
     private String content;
+    /**
+     * ip地址
+     */
     private String ipAddress;
+    /**
+     * 日志产生时间
+     */
     private Date   created;
 
 }

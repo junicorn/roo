@@ -14,8 +14,17 @@ import lombok.Data;
 @Data
 public class Setting extends ActiveRecord{
 
+    /**
+     * 配置键
+     */
     private String  skey;
+    /**
+     * 配置值
+     */
     private String  svalue;
+    /**
+     * 0禁用 1正常
+     */
     private Integer state;
 
 }

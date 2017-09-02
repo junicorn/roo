@@ -18,21 +18,60 @@ import java.util.Date;
 public class Topic extends ActiveRecord {
 
     private String  tid;
+    /**
+     * 所属节点
+     */
     @NotEmpty(message = "请选择节点")
     private String  nodeSlug;
+    /**
+     * 节点名称
+     */
     private String  nodeTitle;
+    /**
+     * 主题题目
+     */
     @NotEmpty(message = "请请输入标题")
     private String  title;
+    /**
+     * 主题内容
+     */
     @NotEmpty(message = "请请输入内容")
     private String  content;
+    /**
+     * 创建人
+     */
     private String  username;
+    /**
+     * 评论数
+     */
     private Integer comments;
+    /**
+     *
+     */
     private Integer gains;
+    /**
+     * 帖子权重
+     */
     private Double  weight;
+    /**
+     * 是否是精华贴
+     */
     private Boolean popular;
+    /**
+     * 最后回复人
+     */
     private String  replyUser;
+    /**
+     * 创建时间
+     */
     private Date    created;
+    /**
+     * 更新时间
+     */
     private Date    updated;
+    /**
+     * 最后回复时间
+     */
     private Date    replyed;
 
 }

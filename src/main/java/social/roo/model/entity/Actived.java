@@ -20,8 +20,18 @@ public class Actived extends ActiveRecord {
     private Long    uid;
     private String  email;
     private String  code;
+    /**
+     * 激活状态
+     * 0未激活 1已激活
+     */
     private Integer state;
+    /**
+     * 创建时间
+     */
     private Date    created;
+    /**
+     * 过期时间
+     */
     private Date    expired;
 
 }
