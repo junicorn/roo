@@ -18,8 +18,14 @@ import java.util.Date;
 public class Advert extends ActiveRecord {
 
     private Long    id;
+    /**
+     * 标题
+     */
     @NotEmpty(message = "标题不能为空")
     private String  title;
+    /**
+     * 内容
+     */
     @NotEmpty(message = "内容不能为空")
     private String  content;
     private Integer sort;

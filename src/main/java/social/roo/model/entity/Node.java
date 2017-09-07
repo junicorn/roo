@@ -14,11 +14,29 @@ import lombok.Data;
 @Data
 public class Node extends ActiveRecord {
 
+    /**
+     * id
+     */
     private Integer id;
+    /**
+     * 父id
+     */
     private Integer pid;
+    /**
+     *
+     */
     private String  slug;
+    /**
+     * 节点名称
+     */
     private String  title;
+    /**
+     * 节点描述
+     */
     private String  description;
+    /**
+     * 节点下的主题数
+     */
     private Integer topics;
     private Integer state;
 }
