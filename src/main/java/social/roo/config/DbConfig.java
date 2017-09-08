@@ -33,15 +33,15 @@ public class DbConfig implements BeanProcessor {
     @Override
     public void processor(Blade blade) {
         Environment         environment = blade.environment();
-        Map<String, String> map         = environment.toMap();
+        Map<String, Object> map         = environment.getPrefix("jdbc");
         if (map.containsKey("jdbc.database")) {
             JdbcConfig jdbcConfig = JdbcConfig.builder()
                     .driver("com.mysql.jdbc.Driver")
-                    .host(map.get("jdbc.host"))
-                    .port(map.get("jdbc.port"))
-                    .username(map.get("jdbc.username"))
-                    .password(map.get("jdbc.password"))
-                    .database(map.get("jdbc.database"))
+                    .host(map.get("jdbc.host").toString())
+                    .port(map.get("jdbc.port").toString())
+                    .username(map.get("jdbc.username").toString())
+                    .password(map.get("jdbc.password").toString())
+                    .database(map.get("jdbc.database").toString())
                     .build();
 
             if (!checkConnect(jdbcConfig)) {
