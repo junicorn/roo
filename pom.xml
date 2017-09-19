@@ -165,7 +165,7 @@
     </profiles>
 
     <build>
-        <finalName>tale</finalName>
+        <finalName>roo</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
