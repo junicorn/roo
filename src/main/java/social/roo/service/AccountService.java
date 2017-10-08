@@ -2,12 +2,12 @@ package social.roo.service;
 
 import com.blade.ioc.annotation.Bean;
 import com.blade.jdbc.Base;
-import com.blade.kit.EncrypKit;
+import com.blade.kit.EncryptKit;
 import com.blade.kit.UUID;
 import com.blade.mvc.WebContext;
 import com.blade.mvc.ui.RestResponse;
 import social.roo.Roo;
-import social.roo.config.RooConst;
+import social.roo.RooConst;
 import social.roo.model.entity.Actived;
 import social.roo.model.entity.Profile;
 import social.roo.model.entity.Setting;
@@ -19,7 +19,6 @@ import social.roo.utils.EmailUtils;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.Set;
 
 /**
  * 账户相关Service
@@ -51,7 +50,7 @@ public class AccountService {
             return RestResponse.fail("邮箱已被注册");
         }
 
-        String pwd = EncrypKit.md5(signupParam.getUsername() + signupParam.getPassword());
+        String pwd = EncryptKit.md5(signupParam.getUsername() + signupParam.getPassword());
 
         LocalDateTime now = LocalDateTime.now();
 
@@ -93,13 +92,13 @@ public class AccountService {
             return RestResponse.fail("不存在该用户");
         }
         if (null != u1) {
-            if (!u1.getPassword().equals(EncrypKit.md5(u1.getUsername() + signinParam.getPassword()))) {
+            if (!u1.getPassword().equals(EncryptKit.md5(u1.getUsername() + signinParam.getPassword()))) {
                 return RestResponse.fail("用户名或密码错误");
             }
             return RestResponse.ok(u1);
         }
         if (null != u2) {
-            if (!u2.getPassword().equals(EncrypKit.md5(u2.getUsername() + signinParam.getPassword()))) {
+            if (!u2.getPassword().equals(EncryptKit.md5(u2.getUsername() + signinParam.getPassword()))) {
                 return RestResponse.fail("用户名或密码错误");
             }
             return RestResponse.ok(u2);

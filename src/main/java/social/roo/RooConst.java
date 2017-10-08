@@ -1,4 +1,4 @@
-package social.roo.config;
+package social.roo;
 
 /**
  * Roo常量

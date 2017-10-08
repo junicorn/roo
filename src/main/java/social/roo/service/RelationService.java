@@ -1,7 +1,7 @@
 package social.roo.service;
 
 import com.blade.ioc.annotation.Bean;
-import social.roo.config.RooConst;
+import social.roo.RooConst;
 import social.roo.utils.ArrayUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.mapdb.DB;

@@ -6,7 +6,7 @@ import com.blade.jdbc.Base;
 import com.blade.jdbc.page.Page;
 import com.blade.kit.StringKit;
 import social.roo.Roo;
-import social.roo.config.RooConst;
+import social.roo.RooConst;
 import social.roo.model.dto.CommentDto;
 import social.roo.model.dto.TopicDetailDto;
 import social.roo.model.dto.TopicDto;
