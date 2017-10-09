@@ -7,6 +7,7 @@ import com.blade.ioc.annotation.Order;
 import com.blade.mvc.view.template.JetbrickTemplateEngine;
 import social.roo.Roo;
 import social.roo.ext.TplFunctions;
+import social.roo.ext.TplTags;
 import social.roo.model.dto.Auth;
 import jetbrick.template.resolver.GlobalResolver;
 
@@ -26,6 +27,7 @@ public class TemplateConfig implements BeanProcessor {
         GlobalResolver         resolver       = templateEngine.getGlobalResolver();
         resolver.registerFunctions(TplFunctions.class);
         resolver.registerMethods(Auth.class);
+        resolver.registerTags(TplTags.class);
 
         Roo.me().globalContext(templateEngine.getGlobalContext());
         Roo.me().context(String.class, "version", blade.environment().get("app.version", "0.0.1"));

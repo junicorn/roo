@@ -2,7 +2,11 @@
     <div class="message is-light">
         <div class="message-header">Roo - 每日赠言</div>
         <div class="message-body">
-            <h6 class="subtitle is-6">世界上一成不变的东西，只有“任何事物都是在不断变化的”这条真理。—— 斯里兰卡</h6>
+            <h6 class="subtitle is-6">
+                #tag cache("CACHE-TIPS-QUOTES", 86400)
+                ${rand_tips(1)}
+                #end
+            </h6>
         </div>
     </div>
     #if(null == login_user)
