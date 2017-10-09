@@ -147,6 +147,10 @@ hr{
     text-align: left;
 }
 
+.tips-foot{
+    text-align: right;
+}
+
 .avatar-48 {
     width: 48px;
     height: 48px;
