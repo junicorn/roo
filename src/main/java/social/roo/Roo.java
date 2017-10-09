@@ -3,6 +3,7 @@ package social.roo;
 import jetbrick.template.JetGlobalContext;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import social.roo.model.dto.NodeDto;
 import social.roo.model.entity.Node;
 import social.roo.model.entity.Setting;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
  * @author biezhi
  * @date 2017/8/5
  */
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Roo {
 

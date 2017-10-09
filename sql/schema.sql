@@ -235,25 +235,18 @@ CREATE TABLE `roo_tips` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=24863 DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `roo_platform`;
-CREATE TABLE `roo_platform` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'appId',
-  `app_name` varchar(50) NOT NULL DEFAULT '' COMMENT '第三方应用名称',
-  `app_key` varchar(80) NOT NULL DEFAULT '' COMMENT '第三方授权key',
-  `app_secret` varchar(80) NOT NULL DEFAULT '' COMMENT '第三方授权秘钥',
-  `created` datetime NOT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8;
-
 DROP TABLE IF EXISTS `roo_platform_user`;
 CREATE TABLE `roo_platform_user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `app_id` int(11) NOT NULL COMMENT 'appId',
+  `app_type` varchar(20) NOT NULL COMMENT 'github',
   `username` varchar(50) NOT NULL DEFAULT '' COMMENT '用户名',
   `uid` bigint(20) NOT NULL COMMENT '绑定的uid',
   `created` datetime NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='授权登录信息表';
+
+# -------------------------------------------------
+
 
 INSERT INTO `roo_actived` (`id`, `uid`, `email`, `code`, `state`, `created`, `expired`)
 VALUES
@@ -23333,11 +23326,6 @@ VALUES
 	(24860,'尊重人不应该胜于尊重真理','希腊',1),
 	(24861,'养儿方知娘辛苦，养女方知谢娘恩','民谚',1),
 	(24862,' 时间的锐齿能啮尽一切，只是对真理无能为力','英国   ',1);
-
-INSERT INTO `roo_platform` (`id`, `app_name`, `app_key`, `app_secret`, `created`)
-VALUES
-	(1000, 'Github登录', '', '', '2017-10-09 00:00:00');
-
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

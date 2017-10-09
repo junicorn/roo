@@ -16,7 +16,7 @@ import java.util.Date;
 @Data
 public class PlatformUser extends ActiveRecord {
     private Integer id;
-    private Integer appId;
+    private String  appType;
     private String  username;
     private Long    uid;
     private Date    created;
