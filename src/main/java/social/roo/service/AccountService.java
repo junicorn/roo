@@ -84,6 +84,10 @@ public class AccountService {
         return RestResponse.ok();
     }
 
+    public User getUserById(Long uid){
+        return new User().find(uid);
+    }
+
     public RestResponse<User> login(SigninParam signinParam) {
         User user = new User();
         User u1   = user.where("username", signinParam.getUsername()).find();

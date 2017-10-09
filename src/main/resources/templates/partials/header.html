@@ -62,20 +62,22 @@
                     </form>
                 </div>
                 #if(null == login_user)
-                <a class="navbar-item is-hidden-desktop-only" href="${siteUrl('signup')}">
+                <a class="navbar-item is-hidden-desktop-only" href="${siteUrl('/signup')}">
                     注册
                 </a>
-                <a class="navbar-item is-hidden-desktop-only" href="${siteUrl('signin')}">
+                <a class="navbar-item is-hidden-desktop-only" href="${siteUrl('/signin')}">
                     登录
                 </a>
                 #else
-                <a class="navbar-item is-hidden-desktop-only" href="${siteUrl('notice')}">
+                <a class="navbar-item is-hidden-desktop-only" href="${siteUrl('/notice')}">
                   <i class="fa fa-bell"></i>
                 </a>
-                <a class="navbar-item is-hidden-desktop-only" href="${siteUrl('topic/new')}">
+                <a class="navbar-item is-hidden-desktop-only" href="${siteUrl('/topic/new')}">
                     <i class="fa fa-plus"></i>
                 </a>
-
+                <a data-no-instant class="navbar-item is-hidden-desktop-only" href="${siteUrl('/logout')}">
+                    注销
+                </a>
                 #end
             </div>
         </div>

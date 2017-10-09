@@ -21,7 +21,7 @@ public class TplFunctions {
         if (StringKit.isBlank(sub)) {
             return Roo.me().getSetting("site_url");
         }
-        String url = Roo.me().getSetting("site_url") + "/" + sub;
+        String url = Roo.me().getSetting("site_url") + sub;
         return url;
     }
 
@@ -33,7 +33,7 @@ public class TplFunctions {
      * @see RooConst#TIP_QUOTES
      * @see RooConst#TIP_COMMUNITY
      */
-    public static String rand_tips(int type) {
+    public static String randTips(int type) {
         String sql  = "select * from roo_tips where `type` = ? order by rand() limit 1";
         Tips   tips = new Tips().query(sql, type);
         String text = "<p>" + tips.getContent() + "</p>";

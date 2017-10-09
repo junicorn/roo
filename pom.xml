@@ -103,12 +103,20 @@
             <version>${emoji.version}</version>
         </dependency>
 
+        <!-- 认证登录 -->
+        <dependency>
+            <groupId>com.github.scribejava</groupId>
+            <artifactId>scribejava-apis</artifactId>
+            <version>4.2.0</version>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.16.18</version>
             <scope>provided</scope>
         </dependency>
+
     </dependencies>
 
     <repositories>

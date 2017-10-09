@@ -18,6 +18,8 @@ import social.roo.service.AccountService;
 
 import java.util.Date;
 
+import static social.roo.RooConst.LOGIN_SESSION_KEY;
+
 /**
  * 认证控制器
  *
@@ -62,7 +64,7 @@ public class AuthController {
     public RestResponse<User> doSignin(@Valid SigninParam signinParam, Session session) {
         RestResponse<User> restResponse = accountService.login(signinParam);
         if (restResponse.isSuccess()) {
-            session.attribute("login_user", restResponse.getPayload());
+            session.attribute(LOGIN_SESSION_KEY, restResponse.getPayload());
         }
         return restResponse;
     }
@@ -110,7 +112,8 @@ public class AuthController {
 
     @GetRoute("logout")
     public void logout(Session session, Response response) {
-        session.removeAttribute("login_user");
+        session.removeAttribute(LOGIN_SESSION_KEY);
         response.redirect("/");
     }
+
 }
