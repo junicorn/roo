@@ -1,5 +1,7 @@
 package social.roo;
 
+import jdk.nashorn.internal.runtime.OptimisticReturnFilters;
+
 /**
  * Roo常量
  *
@@ -20,6 +22,8 @@ public interface RooConst {
     String SETTING_KEY_USERS    = "site_users";
     String SETTING_KEY_TOPICS   = "site_topics";
     String SETTING_KEY_COMMENTS = "site_comments";
+
+    String LOGIN_SESSION_KEY = "login_user";
 
     // 名人名言类别
     int TIP_QUOTES    = 1;

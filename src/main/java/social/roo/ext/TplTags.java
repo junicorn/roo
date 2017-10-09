@@ -19,7 +19,7 @@ public class TplTags {
      * 标签缓存
      *
      * #tag cache("CACHE-TIPS-QUOTES", 86400)
-     *  今天天气: ${rand_tips(1)}
+     *  今天天气: ${randTips(1)}
      * #end
      *
      * @param ctx
