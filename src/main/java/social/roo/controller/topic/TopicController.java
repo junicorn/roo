@@ -32,6 +32,12 @@ public class TopicController {
     @Inject
     private RelationService relationService;
 
+    @GetRoute("new")
+    public String newTopic() {
+
+        return "topic/new";
+    }
+
     @GetRoute("/:tid")
     public String detail(@PathParam String tid, Request request) {
         TopicDetailDto topicDetail = topicService.getTopicDetail(tid);

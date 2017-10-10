@@ -1,5 +1,6 @@
 <div class="column is-one-quarter">
     <div class="message is-light">
+        #if(null == login_user)
         <div class="message-header">Roo - 每日赠言</div>
         <div class="message-body">
             <h6 class="subtitle is-6">
@@ -8,6 +9,19 @@
                 #end
             </h6>
         </div>
+        #else
+        <div class="message-header">Roo 社区</div>
+        <div class="message-body has-text-centered">
+            <h6 class="subtitle is-6">
+                <a class="button is-info" href="${siteUrl('/topic/new')}">
+                    <span class="icon">
+                      <i class="fa fa-pencil-square-o"></i>
+                    </span>
+                    <span>发布主题</span>
+                </a>
+            </h6>
+        </div>
+        #end
     </div>
     #if(null == login_user)
     <div class="message is-light">

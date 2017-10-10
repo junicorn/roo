@@ -163,6 +163,10 @@ hr{
     line-height: 25px;
 }
 
+.message a:not(.button):not(.tag) {
+    text-decoration: none;
+}
+
 .home-topic .message-body a:not(.button) .topic-meta {
     font-size: 14px;
     color: #555;

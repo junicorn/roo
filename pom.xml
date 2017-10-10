@@ -68,11 +68,6 @@
         <!--静态资源-->
         <dependency>
             <groupId>org.webjars.npm</groupId>
-            <artifactId>bulma</artifactId>
-            <version>0.5.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars.npm</groupId>
             <artifactId>jquery</artifactId>
             <version>2.2.4</version>
         </dependency>

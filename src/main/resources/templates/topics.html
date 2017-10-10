@@ -11,7 +11,7 @@
                 <article class="media">
                     <figure class="media-left">
                         <p class="image is-48x48">
-                            <a href="${siteUrl('u/' + topic.username)}">
+                            <a href="${siteUrl('/u/' + topic.username)}">
                                 <img class="avatar-48" src="${topic.avatar}">
                             </a>
                         </p>
@@ -19,18 +19,18 @@
                     <div class="media-content">
                         <div class="content">
                             <p class="topic-title">
-                                <a href="${siteUrl('topic/' + topic.tid)}">${topic.title}</a>
+                                <a href="${siteUrl('/topic/' + topic.tid)}">${topic.title}</a>
                             </p>
                             <p class="topic-meta">
-                                <a class="topic-meta" href="${siteUrl('node/' + topic.nodeSlug)}">${topic.nodeTitle}</a>
+                                <a class="topic-meta" href="${siteUrl('/node/' + topic.nodeSlug)}">${topic.nodeTitle}</a>
                                 <span> • </span>
-                                <a class="topic-meta" href="${siteUrl('u/' + topic.username)}">${topic.username}</a>
+                                <a class="topic-meta" href="${siteUrl('/u/' + topic.username)}">${topic.username}</a>
                                 <span> • </span>
                                 <small>发布于12分钟前</small>
                                 <span> • </span>
                                 #if(topic.comments > 0)
                                 <small>最后回复来自</small>
-                                <a class="topic-meta" href="${siteUrl('u/' + topic.replyUser)}">${topic.replyUser}</a>
+                                <a class="topic-meta" href="${siteUrl('/u/' + topic.replyUser)}">${topic.replyUser}</a>
                                 #else
                                 <small>暂无回复</small>
                                 #end
@@ -38,7 +38,7 @@
                         </div>
                     </div>
                     <div class="media-right" style="line-height: 55px;">
-                        <a href="${siteUrl('topic/' + topic.tid + '#reply-' + topic.replyId)}">
+                        <a href="${siteUrl('/topic/' + topic.tid + '#reply-' + topic.replyId)}">
                             <span class="tag is-rounded" style="background-color: #aab0c6">${topic.comments}</span>
                         </a>
                     </div>
@@ -47,11 +47,11 @@
             </div>
             <div class="message-header">
                 <nav class="pagination">
-                    #if(topicPage.hasPrev())
-                    <a class="pagination-previous" href="${siteUrl('topics/' + topicPage.prevPage)}">上一页</a>
+                    #if(topicPage.hasPrevPage)
+                    <a class="pagination-previous" href="${siteUrl('/topics/' + topicPage.prevPage)}">上一页</a>
                     #end
-                    #if(topicPage.hasNext())
-                    <a class="pagination-next" href="${siteUrl('topics/' + topicPage.nextPage)}">下一页</a>
+                    #if(topicPage.hasNextPage)
+                    <a class="pagination-next" href="${siteUrl('/topics/' + topicPage.nextPage)}">下一页</a>
                     #end
                 </nav>
             </div>
