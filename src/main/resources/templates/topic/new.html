@@ -1,0 +1,80 @@
+#set(String title = "发布新主题")
+#tag layout_block("bodyContent")
+<link rel="stylesheet" href="/static/mditor/css/mditor.min.css" />
+<link rel="stylesheet" href="/static/selectboxit/selectboxit.css" />
+<div class="columns">
+    <div class="column home-topic">
+        <div class="message is-light">
+            <div class="message-header">
+                <div class="is-left">
+                    <a href="">首页</a> / <span>发布新主题</span>
+                </div>
+            </div>
+            <div class="message-body">
+                <div class="bd-snippet-preview ">
+
+                    <div class="field">
+                        <div class="control">
+                            <input class="input" type="text" placeholder="请输入主题标题">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="control">
+                            <div class="select">
+                                <select>
+                                    <option selected>请选择节点</option>
+                                    <option>With options</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="control">
+                            <select class="form-control selectpicker" name="thread[node_id]">
+                                <option value="" selected>请选择节点</option>
+                                <optgroup label="城市">
+                                    <option>北京</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="control">
+                            <textarea id="editor" class="textarea" placeholder="请输入主题内容"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="field is-grouped">
+                        <div class="control">
+                            <button class="button is-link">发布主题</button>
+                        </div>
+                        <div class="control">
+                            <button class="button">取消发布</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="message-header">
+
+            </div>
+        </div>
+    </div>
+    #include('../partials/sidebar.html')
+</div>
+<script type="text/javascript" src="/static/mditor/js/mditor.min.js"></script>
+<script type="text/javascript" src="/static/selectboxit/jquery.selectBoxIt.js"></script>
+<script type="text/javascript">
+    var mditor =  Mditor.fromTextarea(document.getElementById('editor'));
+    mditor.on('ready',function(){
+        mditor.value = '> 请输入主题内容';
+    });
+    $("select").selectBoxIt();
+</script>
+
+#end
+#include('../layouts/default.html')
