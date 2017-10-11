@@ -1,7 +1,6 @@
 #set(String title = "发布新主题")
 #tag layout_block("bodyContent")
-<link rel="stylesheet" href="/static/mditor/css/mditor.min.css" />
-<link rel="stylesheet" href="/static/selectboxit/selectboxit.css" />
+<link rel="stylesheet" href="/static/plugins/mditor/css/mditor.min.css" />
 <div class="columns">
     <div class="column home-topic">
         <div class="message is-light">
@@ -32,17 +31,6 @@
 
                     <div class="field">
                         <div class="control">
-                            <select class="form-control selectpicker" name="thread[node_id]">
-                                <option value="" selected>请选择节点</option>
-                                <optgroup label="城市">
-                                    <option>北京</option>
-                                </optgroup>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <div class="control">
                             <textarea id="editor" class="textarea" placeholder="请输入主题内容"></textarea>
                         </div>
                     </div>
@@ -66,15 +54,24 @@
     </div>
     #include('../partials/sidebar.html')
 </div>
-<script type="text/javascript" src="/static/mditor/js/mditor.min.js"></script>
-<script type="text/javascript" src="/static/selectboxit/jquery.selectBoxIt.js"></script>
+#end
+
+
+#tag layout_block("footScript")
+<script type="text/javascript" src="/static/plugins/mditor/js/mditor.min.js"></script>
 <script type="text/javascript">
     var mditor =  Mditor.fromTextarea(document.getElementById('editor'));
     mditor.on('ready',function(){
         mditor.value = '> 请输入主题内容';
     });
-    $("select").selectBoxIt();
-</script>
 
+    new Noty({
+        type: 'info',
+        layout: 'topRight',
+        text: '这是一条测试通知',
+        timeout: 2000
+    }).show();
+</script>
 #end
+
 #include('../layouts/default.html')

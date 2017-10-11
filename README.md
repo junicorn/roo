@@ -4,7 +4,7 @@
 
 ![](https://img.shields.io/badge/roo-v0.0.1-blue.svg)
 ![](https://img.shields.io/badge/language-java-orange.svg)
-![](https://img.shields.io/badge/blade-v2.0.1-pink.svg)
+![](https://img.shields.io/badge/blade-v2.0.2-pink.svg)
 ![](https://img.shields.io/badge/license-MIT-000000.svg)
 
 ## 特性
