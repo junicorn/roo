@@ -7,14 +7,14 @@
             <div class="message-header">
                 <div class="has-text-left">
                     <div style="padding-bottom: 10px;">
-                        <a href="${siteUrl('/go/' + topic.nodeSlug)}">${topic.nodeTitle}</a> /
+                        <a href="${siteUrl('/go/' + topic.nodeSlug)}" title="${topic.nodeTitle}">${topic.nodeTitle}</a> /
                         <span style="color: #222527;">${topic.title}</span>
                     </div>
                     <div class="topic-head-meta">
-                        <a href="${siteUrl('u/' + topic.username)}"><b>${topic.username}</b></a> · 发布于 <abbr>8 天前</abbr>
+                        <a href="${siteUrl('/@' + topic.username)}" title="${topic.username}"><b>${topic.username}</b></a> · 发布于 <abbr>8 天前</abbr>
                         ·
                         #if(null != topic.replyUser)
-                        最后由 <a href="${siteUrl('u/' + topic.replyUser)}"><b>${topic.replyUser}</b></a> 回复于 <abbr>1
+                        最后由 <a href="${siteUrl('/@' + topic.replyUser)}" title="${topic.replyUser}"><b>${topic.replyUser}</b></a> 回复于 <abbr>1
                         天前</abbr> ·
                         #end
                         <span>${topic.views}</span> 次阅读
@@ -81,16 +81,13 @@
         #if(null != login_user)
         <div class="message is-light">
             <form id="comment-form">
-                <div class="bd-snippet-preview ">
+                <div class="bd-snippet-preview" style="padding: 10px;">
                     <input type="hidden" name="csrf_token" value="${csrf_token}"/>
-
                     <div class="field">
                         <div class="control">
-                                <textarea id="comment-editor" class="textarea" placeholder="请输入主题内容"
-                                          required></textarea>
+                            <textarea id="comment-editor" placeholder="请输入主题内容" required></textarea>
                         </div>
                     </div>
-
                     <div class="field is-grouped">
                         <div class="control">
                             <button id="comment" type="button" class="button is-link">发布评论</button>
@@ -117,7 +114,9 @@
 <script type="text/javascript" src="/static/plugins/mditor/js/mditor.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        Mditor.fromTextarea(document.getElementById('comment-editor'));
+        var mditor = Mditor.fromTextarea(document.getElementById('comment-editor'));
+        mditor.split = false;
+        mditor.height = '250px';
 
         $('#comment-form #comment').click(function () {
             var content = $("#comment-editor").val();

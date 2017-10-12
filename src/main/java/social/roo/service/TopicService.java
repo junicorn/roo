@@ -234,7 +234,7 @@ public class TopicService {
         temp.setReplyed(date);
         temp.setReplyUser(commentParam.getAuthor());
         double weight = RooUtils.calcWeight(likes, favorites, temp.getComments(), topic.getGains(), date.getTime() / 1000);
-        topic.setWeight(weight);
+        temp.setWeight(weight);
         temp.update(topic.getTid());
 
         // ②. 保存评论
