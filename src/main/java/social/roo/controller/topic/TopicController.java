@@ -2,14 +2,12 @@ package social.roo.controller.topic;
 
 import com.blade.ioc.annotation.Inject;
 import com.blade.kit.StringKit;
-import com.blade.mvc.annotation.GetRoute;
-import com.blade.mvc.annotation.Path;
-import com.blade.mvc.annotation.PathParam;
-import com.blade.mvc.annotation.PostRoute;
+import com.blade.mvc.annotation.*;
 import com.blade.mvc.http.Request;
 import com.blade.mvc.ui.RestResponse;
 import com.blade.security.web.csrf.CsrfToken;
 import com.blade.validator.annotation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import social.roo.auth.Access;
 import social.roo.model.dto.Auth;
 import social.roo.model.dto.TopicDetailDto;
@@ -26,6 +24,7 @@ import social.roo.utils.RooUtils;
  * @date 2017/8/2
  */
 @Path("topic")
+@Slf4j
 public class TopicController {
 
     @Inject
@@ -72,6 +71,7 @@ public class TopicController {
      */
     @Access
     @PostRoute("like/:tid")
+    @JSON
     public RestResponse<Boolean> like(@PathParam String tid) {
         Long uid = Auth.loginUser().getUid();
         topicService.likeTopic(uid, tid, true);
@@ -86,6 +86,7 @@ public class TopicController {
      */
     @Access
     @PostRoute("unlike/:tid")
+    @JSON
     public RestResponse<Boolean> unlike(@PathParam String tid) {
         Long uid = Auth.loginUser().getUid();
         topicService.likeTopic(uid, tid, false);
@@ -100,6 +101,7 @@ public class TopicController {
      */
     @Access
     @PostRoute("favorite/:tid")
+    @JSON
     public RestResponse<Boolean> favorite(@PathParam String tid) {
         Long uid = Auth.loginUser().getUid();
         topicService.favoriteTopic(uid, tid, true);
@@ -114,6 +116,7 @@ public class TopicController {
      */
     @Access
     @PostRoute("unfavorite/:tid")
+    @JSON
     public RestResponse<Boolean> unfavorite(@PathParam String tid) {
         Long uid = Auth.loginUser().getUid();
         topicService.favoriteTopic(uid, tid, true);
@@ -129,6 +132,7 @@ public class TopicController {
      */
     @Access
     @PostRoute("gain/:tid")
+    @JSON
     public RestResponse<Boolean> gain(@PathParam String tid, int num) {
         Long uid = Auth.loginUser().getUid();
         if (relationService.isGain(uid, tid)) {
@@ -145,14 +149,20 @@ public class TopicController {
      */
     @Access
     @PostRoute("publish")
+    @JSON
     public RestResponse publish(@Valid Topic topic) {
         String username = Auth.loginUser().getUsername();
         topic.setUsername(username);
         // emoji、xss过滤
         topic.setTitle(RooUtils.cleanContent(topic.getTitle()));
         topic.setContent(RooUtils.cleanContent(topic.getContent()));
-        topicService.publish(topic);
-        return RestResponse.ok();
+        try {
+            topicService.publish(topic);
+            return RestResponse.ok();
+        } catch (Exception e){
+            log.error("主题发布失败", e);
+            return RestResponse.fail("主题发布失败");
+        }
     }
 
     /**
@@ -162,6 +172,7 @@ public class TopicController {
      */
     @Access
     @PostRoute("update")
+    @JSON
     public RestResponse update(@Valid Topic topic) {
         if (StringKit.isBlank(topic.getTid())) {
             return RestResponse.fail("非法请求");

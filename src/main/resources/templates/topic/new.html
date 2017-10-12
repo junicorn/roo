@@ -13,8 +13,7 @@
                 <form id="topic-form">
                     <div class="bd-snippet-preview ">
 
-                        <input type="hidden" name="username" value="${login_user.username}"/>
-                        <input type="hidden" name="node_title" id="node_title"/>
+                        <input type="hidden" name="nodeTitle" id="nodeTitle"/>
                         <input type="hidden" name="csrf_token" value="${csrf_token}"/>
 
                         <div class="field">
@@ -27,7 +26,7 @@
                         <div class="field">
                             <div class="control">
                                 <div class="select">
-                                    <select id="node_slug" name="node_slug">
+                                    <select id="nodeSlug" name="nodeSlug">
                                         <option value="" selected>请选择节点</option>
                                         #for(item : nodes)
                                         <optgroup label="${item.title}">

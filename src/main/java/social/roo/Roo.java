@@ -93,7 +93,7 @@ public class Roo {
         Map<String, String> map = settings.stream()
                 .collect(Collectors.toMap(x -> x.getSkey(), y -> y.getSvalue()));
         this.settings = map;
-        context.set(Map.class, "settings", map);
+        context.set("settings", map);
         return this;
     }
 

@@ -4,7 +4,6 @@ import com.blade.ioc.annotation.Inject;
 import com.blade.mvc.annotation.*;
 import com.blade.mvc.http.Request;
 import com.blade.mvc.http.Response;
-import com.blade.mvc.http.Session;
 import com.blade.mvc.ui.RestResponse;
 import com.blade.patchca.DefaultPatchca;
 import com.blade.patchca.Patchca;
@@ -18,8 +17,6 @@ import social.roo.model.param.SignupParam;
 import social.roo.service.AccountService;
 
 import java.util.Date;
-
-import static social.roo.RooConst.LOGIN_SESSION_KEY;
 
 /**
  * 认证控制器
@@ -113,9 +110,8 @@ public class AuthController {
     }
 
     @GetRoute("logout")
-    public void logout(Session session, Response response) {
-        session.removeAttribute(LOGIN_SESSION_KEY);
-        response.redirect("/");
+    public void logout() {
+        Auth.logout();
     }
 
 }

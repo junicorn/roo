@@ -6,6 +6,8 @@ import social.roo.RooConst;
 import social.roo.model.entity.User;
 import social.roo.utils.RooUtils;
 
+import static social.roo.RooConst.LOGIN_SESSION_KEY;
+
 /**
  * @author biezhi
  * @date 2017/7/31
@@ -42,4 +44,11 @@ public class Auth {
         String hash = RooUtils.encodeId(uid);
         WebContext.response().cookie(RooConst.LOGIN_COOKIE_KEY, hash, 3600 * 7);
     }
+
+    public static void logout() {
+        WebContext.request().session().removeAttribute(LOGIN_SESSION_KEY);
+        WebContext.response().removeCookie(RooConst.LOGIN_COOKIE_KEY);
+        WebContext.response().redirect("/");
+    }
+
 }

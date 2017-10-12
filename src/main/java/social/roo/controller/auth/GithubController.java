@@ -19,6 +19,7 @@ import social.roo.enums.UserRole;
 import social.roo.model.dto.Auth;
 import social.roo.model.dto.GithubUser;
 import social.roo.model.entity.PlatformUser;
+import social.roo.model.entity.Profile;
 import social.roo.model.entity.User;
 import social.roo.model.param.SignupParam;
 import social.roo.service.AccountService;
@@ -83,8 +84,16 @@ public class GithubController {
             temp.setCreated(new Date());
             temp.setUsername(githubUser.getLogin());
 
+            Profile profile = new Profile();
+
             if (null != loginUser) {
                 temp.setUid(loginUser.getUid());
+
+                profile.setUid(loginUser.getUid());
+                profile.setUsername(githubUser.getLogin());
+                profile.setGithub(githubUser.getLogin());
+                profile.save();
+
                 Auth.saveToSession(loginUser);
                 Auth.saveToCookie(loginUser.getUid());
             } else {
@@ -100,6 +109,11 @@ public class GithubController {
                 user.setRole(UserRole.MEMBER.role());
                 Long uid = user.save();
                 temp.setUid(uid);
+
+                profile.setUid(uid);
+                profile.setUsername(githubUser.getLogin());
+                profile.setGithub(githubUser.getLogin());
+                profile.save();
 
                 Auth.saveToSession(user);
                 Auth.saveToCookie(uid);

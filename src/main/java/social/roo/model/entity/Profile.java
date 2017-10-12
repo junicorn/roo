@@ -19,6 +19,10 @@ public class Profile extends ActiveRecord {
      */
     private Long    uid;
     /**
+     * 用户名
+     */
+    private String  username;
+    /**
      * 发布的帖子数
      */
     private Integer topics;

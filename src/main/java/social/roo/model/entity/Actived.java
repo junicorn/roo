@@ -18,6 +18,7 @@ public class Actived extends ActiveRecord {
 
     private Long    id;
     private Long    uid;
+    private String  username;
     private String  email;
     private String  code;
     /**

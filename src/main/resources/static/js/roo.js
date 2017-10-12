@@ -1,14 +1,23 @@
-var roo = {};
-roo.alertBox = function (content) {
+var Roo = {};
+Roo.alertBox = function (options) {
     new Noty({
-        type: 'info',
-        layout: 'topRight',
-        text: content,
-        timeout: 2000
+        type: options.type || 'info',
+        layout: options.layout || 'topRight',
+        text: options.text || '提示',
+        timeout: options.timeout || 2000
     }).show();
 };
 
-$('.modal-close,.modal-background').click(function () {
-    $('#roo-modal').removeClass('is-active');
-});
+Roo.alertError = function (content) {
+    Roo.alertBox({
+        type: 'error',
+        text: content
+    });
+};
 
+Roo.alertOk = function (content) {
+    Roo.alertBox({
+        type: 'information',
+        text: content
+    });
+};

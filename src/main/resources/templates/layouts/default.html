@@ -32,6 +32,8 @@
     <link href="/static/css/bulma.min.css" rel="stylesheet"/>
     <link href="/static/plugins/noty/noty.css" rel="stylesheet"/>
     <link rel="stylesheet" href="/static/css/roo.css?v=${version}"/>
+    <script type="text/javascript" src="/webjars/jquery/2.2.4/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/roo.js?v=${version}"></script>
     <script type="text/javascript">
         Roo.Config = {
             'current_user_id': "${login_user.uid ?! ''}",
@@ -58,10 +60,8 @@
     </div>
     <button class="modal-close is-large"></button>
 </div>
-
-<script type="text/javascript" src="/webjars/jquery/2.2.4/dist/jquery.min.js"></script>
 <script type="text/javascript" src="/static/plugins/noty/noty.min.js"></script>
-<script type="text/javascript" src="/static/js/roo.js?v=${version}"></script>
+
 ${footScript}
 #if( enabled('instantclick') )
 <script src="/static/js/instantclick.min.js" data-no-instant></script>

@@ -73,6 +73,7 @@ public class AccountService {
         Actived actived = new Actived();
         actived.setCode(code);
         actived.setUid(uid);
+        actived.setUsername(signupParam.getUsername());
         actived.setEmail(signupParam.getEmail());
         actived.setCreated(Date.from(now.atZone(ZoneId.systemDefault()).toInstant()));
         // 有效期2小时
@@ -85,7 +86,7 @@ public class AccountService {
         return RestResponse.ok();
     }
 
-    public User getUserById(Long uid){
+    public User getUserById(Long uid) {
         return new User().find(uid);
     }
 
@@ -119,6 +120,7 @@ public class AccountService {
 
             Profile profile = new Profile();
             profile.setUid(actived.getUid());
+            profile.setUsername(actived.getUsername());
             profile.save();
 
             // set user state is ok
