@@ -18,6 +18,7 @@ DROP TABLE IF EXISTS `roo_actived`;
 CREATE TABLE `roo_actived` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `uid` bigint(20) DEFAULT NULL,
+  `username` varchar(100) NOT NULL DEFAULT '',
   `email` varchar(100) NOT NULL DEFAULT '',
   `code` varchar(64) NOT NULL DEFAULT '',
   `state` tinyint(2) NOT NULL DEFAULT '0' COMMENT '0未激活 1已激活',
@@ -147,10 +148,10 @@ DROP TABLE IF EXISTS `roo_profile`;
 CREATE TABLE `roo_profile` (
   `uid` bigint(20) unsigned NOT NULL COMMENT '用户id',
   `username` varchar(50) NOT NULL DEFAULT '' COMMENT '用户名',
-  `topics` int(11) DEFAULT NULL COMMENT '发布的帖子数',
-  `comments` int(11) DEFAULT NULL COMMENT '评论的帖子数',
-  `favorites` int(11) DEFAULT NULL COMMENT '收藏数',
-  `followers` int(11) DEFAULT NULL COMMENT '粉丝数',
+  `topics` int(11) DEFAULT '0' COMMENT '发布的帖子数',
+  `comments` int(11) DEFAULT '0' COMMENT '评论的帖子数',
+  `favorites` int(11) DEFAULT '0' COMMENT '收藏数',
+  `followers` int(11) DEFAULT '0' COMMENT '粉丝数',
   `location` varchar(200) DEFAULT NULL COMMENT '所在位置',
   `website` varchar(200) DEFAULT NULL COMMENT '个人主页',
   `github` varchar(200) DEFAULT NULL COMMENT 'github账号',
