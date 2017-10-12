@@ -45,18 +45,31 @@ public class TopicController {
     @Access
     @GetRoute("new")
     @CsrfToken(newToken = true)
-    public String newTopic(Request request) {
-
+    public String newTopic() {
         return "topic/new";
     }
 
+    /**
+     * 主题详情页面
+     *
+     * @param tid
+     * @param request
+     * @return
+     */
     @GetRoute("/:tid")
     public String detail(@PathParam String tid, Request request) {
+        // 内部会增加浏览量
         TopicDetailDto topicDetail = topicService.getTopicDetail(tid);
         request.attribute("topic", topicDetail);
         return "topic/detail";
     }
 
+    /**
+     * 喜欢一个帖子
+     *
+     * @param tid
+     * @return
+     */
     @Access
     @PostRoute("like/:tid")
     public RestResponse<Boolean> like(@PathParam String tid) {
@@ -65,6 +78,12 @@ public class TopicController {
         return RestResponse.ok();
     }
 
+    /**
+     * 取消喜欢一个帖子
+     *
+     * @param tid
+     * @return
+     */
     @Access
     @PostRoute("unlike/:tid")
     public RestResponse<Boolean> unlike(@PathParam String tid) {
@@ -73,6 +92,12 @@ public class TopicController {
         return RestResponse.ok();
     }
 
+    /**
+     * 收藏一个帖子
+     *
+     * @param tid
+     * @return
+     */
     @Access
     @PostRoute("favorite/:tid")
     public RestResponse<Boolean> favorite(@PathParam String tid) {
@@ -81,6 +106,12 @@ public class TopicController {
         return RestResponse.ok();
     }
 
+    /**
+     * 取消收藏帖子
+     *
+     * @param tid
+     * @return
+     */
     @Access
     @PostRoute("unfavorite/:tid")
     public RestResponse<Boolean> unfavorite(@PathParam String tid) {
@@ -89,6 +120,13 @@ public class TopicController {
         return RestResponse.ok();
     }
 
+    /**
+     * 帖子增益，用户只可以对帖子进行一次增益操作
+     *
+     * @param tid
+     * @param num
+     * @return
+     */
     @Access
     @PostRoute("gain/:tid")
     public RestResponse<Boolean> gain(@PathParam String tid, int num) {

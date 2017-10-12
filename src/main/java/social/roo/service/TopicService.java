@@ -64,7 +64,6 @@ public class TopicService {
     }
 
     public TopicDetailDto getTopicDetail(String tid) {
-
         String sql = "select a.tid, a.title, a.content, a.username, b.avatar," +
                 "a.node_slug as nodeSlug, a.node_title as nodeTitle," +
                 "a.comments, a.created, b.avatar" +

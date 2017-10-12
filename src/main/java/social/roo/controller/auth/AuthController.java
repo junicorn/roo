@@ -10,6 +10,7 @@ import com.blade.patchca.DefaultPatchca;
 import com.blade.patchca.Patchca;
 import com.blade.validator.annotation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import social.roo.model.dto.Auth;
 import social.roo.model.entity.Actived;
 import social.roo.model.entity.User;
 import social.roo.model.param.SigninParam;
@@ -61,10 +62,11 @@ public class AuthController {
      */
     @PostRoute("signin")
     @JSON
-    public RestResponse<User> doSignin(@Valid SigninParam signinParam, Session session) {
+    public RestResponse<User> doSignin(@Valid SigninParam signinParam) {
         RestResponse<User> restResponse = accountService.login(signinParam);
         if (restResponse.isSuccess()) {
-            session.attribute(LOGIN_SESSION_KEY, restResponse.getPayload());
+            Auth.saveToSession(restResponse.getPayload());
+            Auth.saveToCookie(restResponse.getPayload().getUid());
         }
         return restResponse;
     }

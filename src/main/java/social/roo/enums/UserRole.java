@@ -8,6 +8,7 @@ import lombok.Getter;
  */
 public enum UserRole {
 
+    GUEST(0, "游客"),
     MEMBER(1, "注册会员-所有注册用户自动属于该角色"),
     VIP(2, "VIP会员-没有特殊权限，只是一个身份象征"),
     MODERATOR(3, "版主-可以管理若干个话题下的帖子"),

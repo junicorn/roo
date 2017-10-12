@@ -16,6 +16,7 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 import lombok.extern.slf4j.Slf4j;
 import social.roo.RooConst;
 import social.roo.enums.UserRole;
+import social.roo.model.dto.Auth;
 import social.roo.model.dto.GithubUser;
 import social.roo.model.entity.PlatformUser;
 import social.roo.model.entity.User;
@@ -69,8 +70,10 @@ public class GithubController {
         if (null != platformUser) {
             // 直接登录
             User user = accountService.getUserById(platformUser.getUid());
-            session.attribute(LOGIN_SESSION_KEY, user);
-            response.cookie(RooConst.LOGIN_COOKIE_KEY, RooUtils.encodeId(user.getUid()), 3600 * 7);
+
+            Auth.saveToSession(user);
+            Auth.saveToCookie(user.getUid());
+
             log.info("登录成功");
         } else {
             // 判断当前是否已经登录
@@ -82,8 +85,8 @@ public class GithubController {
 
             if (null != loginUser) {
                 temp.setUid(loginUser.getUid());
-                session.attribute(LOGIN_SESSION_KEY, loginUser);
-                response.cookie(RooConst.LOGIN_COOKIE_KEY, RooUtils.encodeId(loginUser.getUid()), 3600 * 7);
+                Auth.saveToSession(loginUser);
+                Auth.saveToCookie(loginUser.getUid());
             } else {
                 // 创建新用户
                 User user = new User();
@@ -97,8 +100,9 @@ public class GithubController {
                 user.setRole(UserRole.MEMBER.role());
                 Long uid = user.save();
                 temp.setUid(uid);
-                session.attribute(LOGIN_SESSION_KEY, user);
-                response.cookie(RooConst.LOGIN_COOKIE_KEY, RooUtils.encodeId(uid), 3600 * 7);
+
+                Auth.saveToSession(user);
+                Auth.saveToCookie(uid);
             }
             temp.save();
             log.info("登录成功");

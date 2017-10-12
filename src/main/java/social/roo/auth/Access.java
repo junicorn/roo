@@ -1,5 +1,7 @@
 package social.roo.auth;
 
+import social.roo.enums.UserRole;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -15,6 +17,6 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 public @interface Access {
 
-    String value() default "member";
+    UserRole value() default UserRole.MEMBER;
 
 }
