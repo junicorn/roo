@@ -1,5 +1,6 @@
 #set(String title = topic.title)
 #tag layout_block("bodyContent")
+<link rel="stylesheet" href="/static/plugins/mditor/css/mditor.min.css"/>
 <div class="columns">
     <div class="column">
         <div class="message is-light">
@@ -10,16 +11,18 @@
                         <span style="color: #222527;">${topic.title}</span>
                     </div>
                     <div class="topic-head-meta">
-                        <a href="${siteUrl('u/' + topic.username)}"><b>${topic.username}</b></a> · 发布于 <abbr>8 天前</abbr> ·
+                        <a href="${siteUrl('u/' + topic.username)}"><b>${topic.username}</b></a> · 发布于 <abbr>8 天前</abbr>
+                        ·
                         #if(null != topic.replyUser)
-                        最后由 <a href="${siteUrl('u/' + topic.replyUser)}"><b>${topic.replyUser}</b></a> 回复于 <abbr>1 天前</abbr> ·
+                        最后由 <a href="${siteUrl('u/' + topic.replyUser)}"><b>${topic.replyUser}</b></a> 回复于 <abbr>1
+                        天前</abbr> ·
                         #end
                         <span>${topic.views}</span> 次阅读
                     </div>
                 </div>
                 <div class="has-text-right">
                     <p class="image is-48x48">
-                        <a href="${siteUrl('u/' + topic.username)}">
+                        <a href="${siteUrl('/@' + topic.username)}">
                             <img class="avatar-48" src="${topic.avatar}">
                         </a>
                     </p>
@@ -43,7 +46,7 @@
             <div class="message-header">
                 <div class="has-text-left">
                     <div class="topic-head-meta">
-                        108 回复  |  最后回复 2017-08-02 16:38:19
+                        ${topic.comments} 回复 | 最后回复 2017-08-02 16:38:19
                     </div>
                 </div>
             </div>
@@ -52,14 +55,14 @@
                 <article id="reply-${comment.coid}" class="media" style="padding: 8px 10px; margin-top:0;">
                     <figure class="media-left" style="padding: 5px 0;">
                         <p class="image is-48x48">
-                            <a href="${siteUrl('u/' + comment.author)}">
+                            <a href="${siteUrl('/@' + comment.author)}">
                                 <img class="avatar-48" src="${comment.avatar}">
                             </a>
                         </p>
                     </figure>
                     <div class="media-content">
                         <div class="topic-head-meta">
-                            <a href="${siteUrl('u/' + comment.author)}"><b>${comment.author}</b></a> ·
+                            <a href="${siteUrl('/@' + comment.author)}"><b>${comment.author}</b></a> ·
                             回复于 ${comment.created} · <a href="#reply-${comment.coid}">#${for.index}</a>
                         </div>
                         <div style="margin-top: 10px;">
@@ -77,7 +80,24 @@
 
         #if(null != login_user)
         <div class="message is-light">
-            <!--TODO: 评论-->
+            <form id="comment-form">
+                <div class="bd-snippet-preview ">
+                    <input type="hidden" name="csrf_token" value="${csrf_token}"/>
+
+                    <div class="field">
+                        <div class="control">
+                                <textarea id="comment-editor" class="textarea" placeholder="请输入主题内容"
+                                          required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="field is-grouped">
+                        <div class="control">
+                            <button id="comment" type="button" class="button is-link">发布评论</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
         #else
         <div class="message is-light">
@@ -91,6 +111,51 @@
     </div>
     #include('../partials/sidebar.html')
 </div>
+#end
+
+#tag layout_block("footScript")
+<script type="text/javascript" src="/static/plugins/mditor/js/mditor.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        Mditor.fromTextarea(document.getElementById('comment-editor'));
+
+        $('#comment-form #comment').click(function () {
+            var content = $("#comment-editor").val();
+            if (!content || content.length == 0) {
+                Roo.alertError('请输入评论内容');
+                return;
+            }
+            $.ajax({
+                url: "/topic/comment",
+                type: "POST",
+                data: {
+                    owner: '${login_user.username}',
+                    tid: '${topic.tid}',
+                    content: content,
+                    csrf_token: '${csrf_token}',
+                    type: '1'
+                },
+                success: function (data, textStatus, jqXHR) {
+                    console.log(data);
+                    if (data && data.success) {
+                        Roo.alertOk('评论发布成功');
+                        window.location.reload();
+                    } else {
+                        Roo.alertError(data.msg || '评论发布失败');
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status == 400) {
+                        Roo.alertError('没有权限操作');
+                        return;
+                    }
+                    console.error("The following error occurred: " + textStatus, errorThrown);
+                }
+            });
+        });
+
+    });
+</script>
 #end
 
 #include('../layouts/default.html')

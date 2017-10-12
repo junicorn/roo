@@ -12,6 +12,7 @@ import social.roo.auth.Access;
 import social.roo.model.dto.Auth;
 import social.roo.model.dto.TopicDetailDto;
 import social.roo.model.entity.Topic;
+import social.roo.model.param.CommentParam;
 import social.roo.service.NodeService;
 import social.roo.service.RelationService;
 import social.roo.service.TopicService;
@@ -55,6 +56,7 @@ public class TopicController {
      * @param request
      * @return
      */
+    @CsrfToken(newToken = true)
     @GetRoute("/:tid")
     public String detail(@PathParam String tid, Request request) {
         // 内部会增加浏览量
@@ -149,6 +151,7 @@ public class TopicController {
      */
     @Access
     @PostRoute("publish")
+    @CsrfToken(valid = true)
     @JSON
     public RestResponse publish(@Valid Topic topic) {
         String username = Auth.loginUser().getUsername();
@@ -159,7 +162,7 @@ public class TopicController {
         try {
             topicService.publish(topic);
             return RestResponse.ok();
-        } catch (Exception e){
+        } catch (Exception e) {
             log.error("主题发布失败", e);
             return RestResponse.fail("主题发布失败");
         }
@@ -172,6 +175,7 @@ public class TopicController {
      */
     @Access
     @PostRoute("update")
+    @CsrfToken(valid = true)
     @JSON
     public RestResponse update(@Valid Topic topic) {
         if (StringKit.isBlank(topic.getTid())) {
@@ -187,6 +191,27 @@ public class TopicController {
         topic.setContent(RooUtils.cleanContent(topic.getContent()));
         topicService.updateTopic(topic);
         return RestResponse.ok();
+    }
+
+    /**
+     * 评论帖子
+     *
+     * @param commentParam
+     * @return
+     */
+    @Access
+    @PostRoute("comment")
+//    @CsrfToken(valid = true)
+    @JSON
+    public RestResponse comment(@Param CommentParam commentParam) {
+        try {
+            commentParam.setAuthor(Auth.loginUser().getUsername());
+            topicService.comment(commentParam);
+            return RestResponse.ok();
+        } catch (Exception e) {
+            log.error("评论发布失败", e);
+            return RestResponse.fail("评论发布失败");
+        }
     }
 
 }

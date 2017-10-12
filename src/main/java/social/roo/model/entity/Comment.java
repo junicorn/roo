@@ -12,7 +12,7 @@ import java.util.Date;
  * @author biezhi
  * @date 2017/8/1
  */
-@Table(value = "roo_notice", pk = "coid")
+@Table(value = "roo_comment", pk = "coid")
 @Data
 public class Comment extends ActiveRecord {
 
@@ -20,7 +20,7 @@ public class Comment extends ActiveRecord {
      * comment表主键
      */
     private Long    coid;
-    private String  cid;
+    private String  tid;
     /**
      * 评论作者
      */

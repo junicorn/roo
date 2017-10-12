@@ -38,9 +38,6 @@ public class AuthHook implements WebHook {
 
         Method method = signature.getAction();
         Access access = method.getAnnotation(Access.class);
-        if (null == access) {
-            return true;
-        }
 
         Response response = signature.response();
         User     user     = Auth.loginUser();
@@ -49,6 +46,10 @@ public class AuthHook implements WebHook {
             if (null != user) {
                 request.session().attribute(LOGIN_SESSION_KEY, user);
             }
+        }
+
+        if (null == access) {
+            return true;
         }
 
         UserRole userRole = access.value();

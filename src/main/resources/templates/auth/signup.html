@@ -71,16 +71,17 @@
 </div>
 #end
 #tag layout_block("footScript")
-<script src="/static/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="/static/plugins/jquery.validation/jquery.validate.min.js"></script>
+<script type="text/javascript" src="/static/plugins/jquery.validation/additional-methods.min.js"></script>
+<script type="text/javascript" src="/static/plugins/jquery.validation/localization/messages_zh.min.js"></script>
 <script type="text/javascript">
-
     $(document).ready(function () {
         $.validator.addMethod("checkUserName", function (value, element, params) {
             var checkName = /^\w{4,20}$/g;
             return this.optional(element) || (checkName.test(value));
         }, "只允许4-20位英文字母、数字或者下画线！");
 
-        var signupValidator = $("#signupForm").validate({
+        $("#signupForm").validate({
             rules: {
                 username: {
                     required: true,
@@ -125,11 +126,8 @@
                     required: "请输入邮箱",
                     email: "请输入一个正确的邮箱"
                 }
-            }
-        });
-
-        $('#signup-btn').click(function () {
-            if (signupValidator.form()) {
+            },
+            submitHandler: function () {
                 var param = $('#signupForm').serializeArray();
                 $.post('/signup', param, function (data) {
                     if (data && data.success) {

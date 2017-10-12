@@ -2,7 +2,6 @@ package social.roo.service;
 
 import com.blade.ioc.annotation.Bean;
 import com.blade.ioc.annotation.Inject;
-import com.blade.jdbc.Base;
 import com.blade.jdbc.page.Page;
 import com.blade.kit.StringKit;
 import social.roo.Roo;
@@ -11,6 +10,7 @@ import social.roo.model.dto.CommentDto;
 import social.roo.model.dto.TopicDetailDto;
 import social.roo.model.dto.TopicDto;
 import social.roo.model.entity.*;
+import social.roo.model.param.CommentParam;
 import social.roo.model.param.SearchParam;
 import social.roo.utils.RooUtils;
 
@@ -86,22 +86,6 @@ public class TopicService {
     }
 
     /**
-     * 发布帖子
-     *
-     * @param topic
-     */
-    public void createTopic(Topic topic) {
-        Date date = new Date();
-        topic.setCreated(date);
-        topic.setUpdated(date);
-        long   created = date.getTime() / 1000;
-        double weight  = RooUtils.calcWeight(0, 0, 0, 0, created);
-        topic.setWeight(weight);
-
-        topic.save();
-    }
-
-    /**
      * 点赞、取消点赞
      *
      * @param uid
@@ -174,6 +158,11 @@ public class TopicService {
         topic.update();
     }
 
+    /**
+     * 发布主题
+     *
+     * @param topic
+     */
     public void publish(Topic topic) {
         Date date = new Date();
         topic.setTid(RooUtils.genTid());
@@ -184,7 +173,7 @@ public class TopicService {
         topic.save();
 
         // 帖子数+1
-        // settings user count +1
+        // settings topics count +1
         Setting setting = new Setting();
         setting.setSkey(RooConst.SETTING_KEY_TOPICS);
         Setting topicsSetting = setting.find();
@@ -222,5 +211,60 @@ public class TopicService {
                 notice.save();
             });
         }
+    }
+
+    /**
+     * 主题评论
+     *
+     * @param commentParam
+     */
+    public void comment(CommentParam commentParam) {
+
+        // ①. 更新主题权重
+        Date date = new Date();
+
+        Topic topic = new Topic().find(commentParam.getTid());
+
+        int likes     = relationService.getTopicLikes(topic.getTid());
+        int favorites = relationService.getTopicFavorites(topic.getTid());
+
+        Topic temp = new Topic();
+        temp.setComments(topic.getComments() + 1);
+        temp.setUpdated(date);
+        temp.setReplyed(date);
+        temp.setReplyUser(commentParam.getAuthor());
+        double weight = RooUtils.calcWeight(likes, favorites, temp.getComments(), topic.getGains(), date.getTime() / 1000);
+        topic.setWeight(weight);
+        temp.update(topic.getTid());
+
+        // ②. 保存评论
+        Comment comment = new Comment();
+        comment.setTid(commentParam.getTid());
+        comment.setAuthor(commentParam.getAuthor());
+        comment.setOwner(commentParam.getOwner());
+        comment.setContent(commentParam.getContent());
+        comment.setType(commentParam.getType());
+        comment.setCreated(date);
+        comment.setState(1);
+        comment.save();
+
+        // ③. 更新用户评论数
+        Profile profile   = accountService.getProfile(commentParam.getAuthor());
+        Profile upProfile = new Profile();
+        upProfile.setComments(profile.getComments() + 1);
+        upProfile.update(profile.getUid());
+
+        // ④. 更新全局统计
+        Setting setting = new Setting();
+        setting.setSkey(RooConst.SETTING_KEY_COMMENTS);
+        Setting commentsSetting = setting.find();
+        commentsSetting.setSvalue(String.valueOf(Integer.parseInt(commentsSetting.getSvalue()) + 1));
+        commentsSetting.update(RooConst.SETTING_KEY_COMMENTS);
+
+        // refresh settings
+        Roo.me().refreshSettings();
+
+        // ⑤. 处理@用户
+
     }
 }

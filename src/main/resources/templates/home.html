@@ -22,40 +22,40 @@
     <div class="column">
         <div class="notification shadow-1 is-link has-text-centered">
             <div class="item-icon">
-                <a href="${siteUrl('/topics')}"><i class="fa fa-comments-o"></i></a>
+                <a href="${siteUrl('/topics')}" title="Roo社区"><i class="fa fa-comments-o"></i></a>
             </div>
             <div>
-                <a href="${siteUrl('/topics')}">Roo社区</a>
+                <a href="${siteUrl('/topics')}" title="Roo社区">Roo社区</a>
             </div>
         </div>
     </div>
     <div class="column">
         <div class="notification shadow-1 is-success has-text-centered">
             <div class="item-icon">
-                <a href="${siteUrl('/wiki')}"><i class="fa fa-support"></i></a>
+                <a href="${siteUrl('/wiki')}" title="技术文档"><i class="fa fa-support"></i></a>
             </div>
             <div>
-                <a href="${siteUrl('/wiki')}">技术文档</a>
+                <a href="${siteUrl('/wiki')}" title="技术文档">技术文档</a>
             </div>
         </div>
     </div>
     <div class="column">
         <div class="notification shadow-1 is-warning has-text-centered">
             <div class="item-icon">
-                <a href="${siteUrl('/go/jobs')}"><i class="fa fa-users"></i></a>
+                <a href="${siteUrl('/go/jobs')}" title="招聘求职"><i class="fa fa-users"></i></a>
             </div>
             <div>
-                <a href="${siteUrl('/go/jobs')}">求职招聘</a>
+                <a href="${siteUrl('/go/jobs')}" title="招聘求职">招聘求职</a>
             </div>
         </div>
     </div>
     <div class="column">
         <div class="notification shadow-1 is-danger has-text-centered">
             <div class="item-icon">
-                <a href="${siteUrl('/popular')}"><i class="fa fa-diamond"></i></a>
+                <a href="${siteUrl('/popular')}" title="精华主题"><i class="fa fa-diamond"></i></a>
             </div>
             <div>
-                <a href="${siteUrl('/popular')}">精华主题</a>
+                <a href="${siteUrl('/popular')}" title="精华主题">精华主题</a>
             </div>
         </div>
     </div>
@@ -75,7 +75,7 @@
                 <article class="media">
                     <figure class="media-left">
                         <p class="image is-48x48">
-                            <a href="${siteUrl('/u/' + topic.username)}">
+                            <a href="${siteUrl('/@' + topic.username)}" title="${topic.username}">
                                 <img class="avatar-48" src="${topic.avatar}">
                             </a>
                         </p>
@@ -83,18 +83,18 @@
                     <div class="media-content">
                         <div class="content">
                             <p class="topic-title">
-                                <a href="${siteUrl('/topic/' + topic.tid)}">${topic.title}</a>
+                                <a href="${siteUrl('/topic/' + topic.tid)}" title="${topic.title}">${topic.title}</a>
                             </p>
                             <p class="topic-meta">
-                                <a class="topic-meta" href="${siteUrl('/node/' + topic.nodeSlug)}">${topic.nodeTitle}</a>
+                                <a class="topic-meta" href="${siteUrl('/node/' + topic.nodeSlug)}" title="${topic.nodeTitle}">${topic.nodeTitle}</a>
                                 <span> • </span>
-                                <a class="topic-meta" href="${siteUrl('/u/' + topic.username)}">${topic.username}</a>
+                                <a class="topic-meta" href="${siteUrl('/@' + topic.username)}" title="${topic.username}">${topic.username}</a>
                                 <span> • </span>
                                 <small>发布于12分钟前</small>
                                 <span> • </span>
                                 #if(topic.comments > 0)
                                 <small>最后回复来自</small>
-                                <a class="topic-meta" href="${siteUrl('/u/' + topic.replyUser)}">${topic.replyUser}</a>
+                                <a class="topic-meta" href="${siteUrl('/@' + topic.replyUser)}" title="${topic.replyUser}">${topic.replyUser}</a>
                                 #else
                                 <small>暂无回复</small>
                                 #end
@@ -102,7 +102,7 @@
                         </div>
                     </div>
                     <div class="media-right" style="line-height: 55px;">
-                        <a href="${siteUrl('/topic/' + topic.tid + '#reply-' + topic.replyId)}">
+                        <a href="${siteUrl('/topic/' + topic.tid + '#reply-' + topic.replyId)}" title="查看评论">
                             <span class="tag is-rounded" style="background-color: #aab0c6">${topic.comments}</span>
                         </a>
                     </div>

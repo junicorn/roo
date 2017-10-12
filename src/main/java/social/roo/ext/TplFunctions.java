@@ -3,7 +3,11 @@ package social.roo.ext;
 import com.blade.kit.StringKit;
 import social.roo.Roo;
 import social.roo.RooConst;
+import social.roo.model.dto.CommentDto;
 import social.roo.model.entity.Tips;
+import social.roo.utils.RooUtils;
+
+import java.util.List;
 
 /**
  * 模板函数
@@ -52,6 +56,17 @@ public class TplFunctions {
             text += "<p class='tips-foot'>——" + tips.getFoot() + "</p>";
         }
         return text;
+    }
+
+    public static List<CommentDto> comments(String tid){
+        String sql = "select a.coid, a.author, b.avatar, a.content, a.created" +
+                " from roo_comment a" +
+                " left join roo_user b on a.author = b.username" +
+                " where a.tid = ?";
+
+        List<CommentDto> list = new CommentDto().queryAll(sql, tid);
+        list.forEach(dto -> dto.setContent(RooUtils.mdToHtml(dto.getContent())));
+        return list;
     }
 
 }

@@ -11,7 +11,7 @@
                 <article class="media">
                     <figure class="media-left">
                         <p class="image is-48x48">
-                            <a href="${siteUrl('/u/' + topic.username)}">
+                            <a href="${siteUrl('/@' + topic.username)}">
                                 <img class="avatar-48" src="${topic.avatar}">
                             </a>
                         </p>
@@ -24,13 +24,13 @@
                             <p class="topic-meta">
                                 <a class="topic-meta" href="${siteUrl('/node/' + topic.nodeSlug)}">${topic.nodeTitle}</a>
                                 <span> • </span>
-                                <a class="topic-meta" href="${siteUrl('/u/' + topic.username)}">${topic.username}</a>
+                                <a class="topic-meta" href="${siteUrl('/@' + topic.username)}">${topic.username}</a>
                                 <span> • </span>
                                 <small>发布于12分钟前</small>
                                 <span> • </span>
                                 #if(topic.comments > 0)
                                 <small>最后回复来自</small>
-                                <a class="topic-meta" href="${siteUrl('/u/' + topic.replyUser)}">${topic.replyUser}</a>
+                                <a class="topic-meta" href="${siteUrl('/@' + topic.replyUser)}">${topic.replyUser}</a>
                                 #else
                                 <small>暂无回复</small>
                                 #end

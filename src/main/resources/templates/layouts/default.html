@@ -9,7 +9,7 @@
   ------------------------------------------------
     https://github.com/junicorn/roo
 
-  - Blade : 2.0.2
+  - Blade : 2.0.3
   - Roo   : 0.0.1
 -->
 <!DOCTYPE html>
@@ -50,18 +50,7 @@
     ${bodyContent}
     #include('../partials/footer.html')
 </div>
-
-<div id="roo-modal" class="modal">
-    <div class="modal-background"></div>
-    <div class="modal-content">
-        <div class="box">
-
-        </div>
-    </div>
-    <button class="modal-close is-large"></button>
-</div>
 <script type="text/javascript" src="/static/plugins/noty/noty.min.js"></script>
-
 ${footScript}
 #if( enabled('instantclick') )
 <script src="/static/js/instantclick.min.js" data-no-instant></script>

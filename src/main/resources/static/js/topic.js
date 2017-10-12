@@ -58,4 +58,5 @@ $(document).ready(function () {
     $('#nodeSlug').on('change', function () {
         $('#nodeTitle').val($("#topic-form #nodeSlug option:selected").text());
     });
+
 });
