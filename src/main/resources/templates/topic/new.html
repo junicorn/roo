@@ -29,7 +29,13 @@
                                 <div class="select">
                                     <select id="node_slug" name="node_slug">
                                         <option value="" selected>请选择节点</option>
-                                        <option value="beijing">北京</option>
+                                        #for(item : nodes)
+                                        <optgroup label="${item.title}">
+                                            #for(node : item.children)
+                                            <option value="${node.slug}">${node.title}</option>
+                                            #end
+                                        </optgroup>
+                                        #end
                                     </select>
                                 </div>
                             </div>
@@ -67,57 +73,7 @@
 <script type="text/javascript" src="/static/plugins/mditor/js/mditor.min.js"></script>
 <script type="text/javascript" src="/static/plugins/jquery.validation/jquery.validate.min.js"></script>
 <script type="text/javascript" src="/static/plugins/jquery.validation/localization/messages_zh.min.js"></script>
-<script type="text/javascript">
-
-    $("#topic-form").validate({
-        rules: {
-            title: {
-                required: true,
-                minlength: 5
-            },
-            editor: {
-                required: true
-            }
-        },
-        messages: {
-            title: {
-                required: '请输入标题',
-                minlength: '标题最少5个字符'
-            },
-            editor: {
-                required: '请输入内容'
-            }
-        },
-        submitHandler: function () {
-            $.ajax({
-                url: "/topic/publish",
-                type: "POST",
-                data: $('#topic-form').serialize(),
-                success: function (data, textStatus, jqXHR) {
-                    //data - response from server
-                    if (data && data.success) {
-
-                    } else {
-                        roo.alertBox(data.msg || '主题发布失败');
-                    }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    if (jqXHR.status == 400) {
-                        roo.alertBox('没有权限操作');
-                        return;
-                    }
-                    console.error("The following error occurred: " + textStatus, errorThrown);
-                }
-            });
-        }
-    });
-
-    var mditor = Mditor.fromTextarea(document.getElementById('editor'));
-    mditor.on('ready', function () {
-        mditor.value = '> 请输入主题内容';
-    });
-
-</script>
+<script type="text/javascript" src="/static/js/topic.js"></script>
 #end
 
 #include('../layouts/default.html')

@@ -8,6 +8,7 @@ import com.blade.mvc.WebContext;
 import com.blade.mvc.ui.RestResponse;
 import social.roo.Roo;
 import social.roo.RooConst;
+import social.roo.enums.UserRole;
 import social.roo.model.entity.Actived;
 import social.roo.model.entity.Profile;
 import social.roo.model.entity.Setting;
@@ -61,11 +62,11 @@ public class AccountService {
         user.setState(0);
         user.setCreated(Date.from(now.atZone(ZoneId.systemDefault()).toInstant()));
         user.setUpdated(user.getCreated());
-        user.setRole("member");
+        user.setRole(UserRole.MEMBER.role());
         Long uid = user.save();
 
         String code       = UUID.UU64();
-        String activeLink = Roo.me().getSetting("site_url") + "/active?code=" + code;
+        String activeLink = Roo.me().getSiteUrl() + "/active?code=" + code;
 
         signupParam.setLink(activeLink);
 

@@ -14,6 +14,7 @@ import social.roo.auth.Access;
 import social.roo.model.dto.Auth;
 import social.roo.model.dto.TopicDetailDto;
 import social.roo.model.entity.Topic;
+import social.roo.service.NodeService;
 import social.roo.service.RelationService;
 import social.roo.service.TopicService;
 import social.roo.utils.RooUtils;
@@ -33,14 +34,18 @@ public class TopicController {
     @Inject
     private RelationService relationService;
 
+    @Inject
+    private NodeService nodeService;
+
     /**
      * 发布新主题页面
      *
      * @return
      */
+    @Access
     @GetRoute("new")
     @CsrfToken(newToken = true)
-    public String newTopic() {
+    public String newTopic(Request request) {
 
         return "topic/new";
     }

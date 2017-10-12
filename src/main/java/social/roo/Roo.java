@@ -48,6 +48,10 @@ public class Roo {
         return this;
     }
 
+    public String getSiteUrl() {
+        return Roo.me().getSetting("site_url");
+    }
+
     public String getSetting(String key) {
         return settings.get(key);
     }
@@ -64,17 +68,19 @@ public class Roo {
     public Roo refreshNodes() {
         List<Node> parent = new Node().where("pid", 0).and("state", 1).findAll();
         List<NodeDto> nodes = parent.stream()
-                .map(p -> {
-                    NodeDto nodeDto = new NodeDto();
-                    nodeDto.setTitle(p.getTitle());
-                    nodeDto.setSlug(p.getSlug());
-                    List<Node> children = new Node().where("pid", p.getId()).and("state", 1).findAll();
-                    nodeDto.setChildren(children);
-                    return nodeDto;
-                })
+                .map(this::buildNodeDto)
                 .collect(Collectors.toList());
         context.set(List.class, "nodes", nodes);
         return this;
+    }
+
+    private NodeDto buildNodeDto(Node p) {
+        NodeDto nodeDto = new NodeDto();
+        nodeDto.setTitle(p.getTitle());
+        nodeDto.setSlug(p.getSlug());
+        List<Node> children = new Node().where("pid", p.getId()).and("state", 1).findAll();
+        nodeDto.setChildren(children);
+        return nodeDto;
     }
 
     /**

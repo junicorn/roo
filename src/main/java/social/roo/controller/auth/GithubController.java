@@ -15,6 +15,7 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import lombok.extern.slf4j.Slf4j;
 import social.roo.RooConst;
+import social.roo.enums.UserRole;
 import social.roo.model.dto.GithubUser;
 import social.roo.model.entity.PlatformUser;
 import social.roo.model.entity.User;
@@ -93,7 +94,7 @@ public class GithubController {
                 user.setAvatar(githubUser.getAvatar_url());
                 user.setCreated(new Date());
                 user.setUpdated(new Date());
-                user.setRole("member");
+                user.setRole(UserRole.MEMBER.role());
                 Long uid = user.save();
                 temp.setUid(uid);
                 session.attribute(LOGIN_SESSION_KEY, user);
