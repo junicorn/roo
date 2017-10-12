@@ -8,6 +8,7 @@ import com.blade.mvc.annotation.PathParam;
 import com.blade.mvc.annotation.PostRoute;
 import com.blade.mvc.http.Request;
 import com.blade.mvc.ui.RestResponse;
+import com.blade.security.web.csrf.CsrfToken;
 import com.blade.validator.annotation.Valid;
 import social.roo.auth.Access;
 import social.roo.model.dto.Auth;
@@ -32,7 +33,13 @@ public class TopicController {
     @Inject
     private RelationService relationService;
 
+    /**
+     * 发布新主题页面
+     *
+     * @return
+     */
     @GetRoute("new")
+    @CsrfToken(newToken = true)
     public String newTopic() {
 
         return "topic/new";

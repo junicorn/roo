@@ -24,6 +24,7 @@ public interface RooConst {
     String SETTING_KEY_COMMENTS = "site_comments";
 
     String LOGIN_SESSION_KEY = "login_user";
+    String LOGIN_COOKIE_KEY = "ROO_U_ID";
 
     // 名人名言类别
     int TIP_QUOTES    = 1;

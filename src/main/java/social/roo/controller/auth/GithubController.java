@@ -14,12 +14,14 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import lombok.extern.slf4j.Slf4j;
+import social.roo.RooConst;
 import social.roo.model.dto.GithubUser;
 import social.roo.model.entity.PlatformUser;
 import social.roo.model.entity.User;
 import social.roo.model.param.SignupParam;
 import social.roo.service.AccountService;
 import social.roo.service.PlatformService;
+import social.roo.utils.RooUtils;
 
 import java.time.ZoneId;
 import java.util.Date;
@@ -55,11 +57,11 @@ public class GithubController {
     }
 
     @GetRoute("callback")
-    public void callback(@Param String code, Session session) throws Exception {
+    public void callback(@Param String code, Session session, com.blade.mvc.http.Response response) throws Exception {
         log.info("Code: {}", code);
         final OAuthRequest request    = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
-        final Response     response   = execute(code, request);
-        String             body       = response.getBody();
+        final Response     res        = execute(code, request);
+        String             body       = res.getBody();
         GithubUser         githubUser = JsonKit.formJson(body, GithubUser.class);
 
         PlatformUser platformUser = platformService.getPlatformUser(githubUser.getLogin());
@@ -67,6 +69,7 @@ public class GithubController {
             // 直接登录
             User user = accountService.getUserById(platformUser.getUid());
             session.attribute(LOGIN_SESSION_KEY, user);
+            response.cookie(RooConst.LOGIN_COOKIE_KEY, RooUtils.encodeId(user.getUid()), 3600 * 7);
             log.info("登录成功");
         } else {
             // 判断当前是否已经登录
@@ -79,6 +82,7 @@ public class GithubController {
             if (null != loginUser) {
                 temp.setUid(loginUser.getUid());
                 session.attribute(LOGIN_SESSION_KEY, loginUser);
+                response.cookie(RooConst.LOGIN_COOKIE_KEY, RooUtils.encodeId(loginUser.getUid()), 3600 * 7);
             } else {
                 // 创建新用户
                 User user = new User();
@@ -93,6 +97,7 @@ public class GithubController {
                 Long uid = user.save();
                 temp.setUid(uid);
                 session.attribute(LOGIN_SESSION_KEY, user);
+                response.cookie(RooConst.LOGIN_COOKIE_KEY, RooUtils.encodeId(uid), 3600 * 7);
             }
             temp.save();
             log.info("登录成功");

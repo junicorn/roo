@@ -1,6 +1,6 @@
 #set(String title = "发布新主题")
 #tag layout_block("bodyContent")
-<link rel="stylesheet" href="/static/plugins/mditor/css/mditor.min.css" />
+<link rel="stylesheet" href="/static/plugins/mditor/css/mditor.min.css"/>
 <div class="columns">
     <div class="column home-topic">
         <div class="message is-light">
@@ -10,45 +10,52 @@
                 </div>
             </div>
             <div class="message-body">
-                <div class="bd-snippet-preview ">
+                <form id="topic-form">
+                    <div class="bd-snippet-preview ">
 
-                    <div class="field">
-                        <div class="control">
-                            <input class="input" type="text" placeholder="请输入主题标题">
+                        <input type="hidden" name="username" value="${login_user.username}"/>
+                        <input type="hidden" name="node_title" id="node_title"/>
+                        <input type="hidden" name="csrf_token" value="${csrf_token}"/>
+
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" id="title" name="title" type="text" placeholder="请输入主题标题"
+                                       required/>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="field">
-                        <div class="control">
-                            <div class="select">
-                                <select>
-                                    <option selected>请选择节点</option>
-                                    <option>With options</option>
-                                </select>
+                        <div class="field">
+                            <div class="control">
+                                <div class="select">
+                                    <select id="node_slug" name="node_slug">
+                                        <option value="" selected>请选择节点</option>
+                                        <option value="beijing">北京</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="control">
+                                <textarea id="editor" name="content" class="textarea" placeholder="请输入主题内容"
+                                          required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="field is-grouped">
+                            <div class="control">
+                                <button id="publish" type="submit" class="button is-link">发布主题</button>
+                            </div>
+                            <div class="control">
+                                <button id="cancel" class="button">取消发布</button>
                             </div>
                         </div>
                     </div>
-
-                    <div class="field">
-                        <div class="control">
-                            <textarea id="editor" class="textarea" placeholder="请输入主题内容"></textarea>
-                        </div>
-                    </div>
-
-                    <div class="field is-grouped">
-                        <div class="control">
-                            <button class="button is-link">发布主题</button>
-                        </div>
-                        <div class="control">
-                            <button class="button">取消发布</button>
-                        </div>
-                    </div>
-
-                </div>
-
+                </form>
             </div>
-            <div class="message-header">
 
+            <div class="message-header">
+                <a href="">使用富文本编辑器</a>
             </div>
         </div>
     </div>
@@ -56,21 +63,60 @@
 </div>
 #end
 
-
 #tag layout_block("footScript")
 <script type="text/javascript" src="/static/plugins/mditor/js/mditor.min.js"></script>
+<script type="text/javascript" src="/static/plugins/jquery.validation/jquery.validate.min.js"></script>
+<script type="text/javascript" src="/static/plugins/jquery.validation/localization/messages_zh.min.js"></script>
 <script type="text/javascript">
-    var mditor =  Mditor.fromTextarea(document.getElementById('editor'));
-    mditor.on('ready',function(){
+
+    $("#topic-form").validate({
+        rules: {
+            title: {
+                required: true,
+                minlength: 5
+            },
+            editor: {
+                required: true
+            }
+        },
+        messages: {
+            title: {
+                required: '请输入标题',
+                minlength: '标题最少5个字符'
+            },
+            editor: {
+                required: '请输入内容'
+            }
+        },
+        submitHandler: function () {
+            $.ajax({
+                url: "/topic/publish",
+                type: "POST",
+                data: $('#topic-form').serialize(),
+                success: function (data, textStatus, jqXHR) {
+                    //data - response from server
+                    if (data && data.success) {
+
+                    } else {
+                        roo.alertBox(data.msg || '主题发布失败');
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status == 400) {
+                        roo.alertBox('没有权限操作');
+                        return;
+                    }
+                    console.error("The following error occurred: " + textStatus, errorThrown);
+                }
+            });
+        }
+    });
+
+    var mditor = Mditor.fromTextarea(document.getElementById('editor'));
+    mditor.on('ready', function () {
         mditor.value = '> 请输入主题内容';
     });
 
-    new Noty({
-        type: 'info',
-        layout: 'topRight',
-        text: '这是一条测试通知',
-        timeout: 2000
-    }).show();
 </script>
 #end
 

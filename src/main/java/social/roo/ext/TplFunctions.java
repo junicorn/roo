@@ -13,6 +13,17 @@ import social.roo.model.entity.Tips;
  */
 public class TplFunctions {
 
+    /**
+     * 是否启用某个插件
+     *
+     * @param key
+     * @return
+     */
+    public static boolean enabled(String key) {
+        String value = Roo.me().getOrDefault("plugin." + key, "false");
+        return "true".equals(value);
+    }
+
     public static String siteUrl() {
         return siteUrl("");
     }

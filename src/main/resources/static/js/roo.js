@@ -1,8 +1,14 @@
 var roo = {};
 roo.alertBox = function (content) {
-    $('#roo-modal').find('.box').text(content);
-    $('#roo-modal').addClass('is-active');
+    new Noty({
+        type: 'info',
+        layout: 'topRight',
+        text: content,
+        timeout: 2000
+    }).show();
 };
+
 $('.modal-close,.modal-background').click(function () {
     $('#roo-modal').removeClass('is-active');
 });
+

@@ -13,19 +13,34 @@
   - Roo   : 0.0.1
 -->
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
     #if(null == title)
     <title>${settings.site_title}</title>
     #else
     <title>${title} - ${settings.site_title}</title>
     #end
+
+    <meta name="token" content="${csrf_token ?! ''}">
+
     <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="/static/css/bulma.min.css" rel="stylesheet"/>
     <link href="/static/plugins/noty/noty.css" rel="stylesheet"/>
     <link rel="stylesheet" href="/static/css/roo.css?v=${version}"/>
+    <script type="text/javascript">
+        Roo.Config = {
+            'current_user_id': "${login_user.uid ?! ''}",
+            'token': "${csrf_token ?! ''}",
+            'upload_url': "${siteUrl('/upload_image')}",
+            'notification_url': "${siteUrl('/notification/count')}",
+            'version': '${version}'
+        };
+    </script>
 </head>
 <body>
 #include('../partials/header.html')
@@ -47,6 +62,8 @@
 <script type="text/javascript" src="/webjars/jquery/2.2.4/dist/jquery.min.js"></script>
 <script type="text/javascript" src="/static/plugins/noty/noty.min.js"></script>
 <script type="text/javascript" src="/static/js/roo.js?v=${version}"></script>
+${footScript}
+#if( enabled('instantclick') )
 <script src="/static/js/instantclick.min.js" data-no-instant></script>
 <script data-no-instant>
     InstantClick.on('change', function (isInitialLoad) {
@@ -56,6 +73,6 @@
     });
     InstantClick.init('mousedown');
 </script>
-${footScript}
+#end
 </body>
 </html>

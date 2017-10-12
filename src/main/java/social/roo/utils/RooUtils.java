@@ -37,6 +37,10 @@ public class RooUtils {
         return hashids.decode(hash)[1];
     }
 
+    public static String encodeId(Long hash) {
+        return hashids.encode(1003, hash);
+    }
+
     /**
      * markdown转换为html
      *
