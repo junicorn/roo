@@ -6,6 +6,8 @@ import com.blade.jdbc.page.Page;
 import com.blade.kit.StringKit;
 import social.roo.Roo;
 import social.roo.RooConst;
+import social.roo.ext.InputFilter;
+import social.roo.ext.TplFunctions;
 import social.roo.model.dto.CommentDto;
 import social.roo.model.dto.TopicDetailDto;
 import social.roo.model.dto.TopicDto;
@@ -25,9 +27,6 @@ import java.util.Set;
  */
 @Bean
 public class TopicService {
-
-    @Inject
-    private CommentService commentService;
 
     @Inject
     private RelationService relationService;
@@ -74,10 +73,10 @@ public class TopicService {
         TopicDetailDto topicDetail = new TopicDetailDto().query(sql, tid);
         if (topicDetail.getComments() > 0) {
             // 加载评论
-            List<CommentDto> commentDtos = commentService.getComments(tid);
+            List<CommentDto> commentDtos = TplFunctions.comments(tid);
             topicDetail.setCommentList(commentDtos);
         }
-        topicDetail.setContent(RooUtils.mdToHtml(topicDetail.getContent()));
+        topicDetail.setContent(new InputFilter(topicDetail.getContent()).unicodeToEmoji().mdToHtml().toString());
         topicDetail.setViews(relationService.viewTopic(tid).intValue());
         topicDetail.setLikes(relationService.getTopicLikes(tid));
         topicDetail.setFavorites(relationService.getTopicFavorites(tid));

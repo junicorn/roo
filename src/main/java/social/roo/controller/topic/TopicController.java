@@ -9,6 +9,7 @@ import com.blade.security.web.csrf.CsrfToken;
 import com.blade.validator.annotation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import social.roo.auth.Access;
+import social.roo.ext.InputFilter;
 import social.roo.model.dto.Auth;
 import social.roo.model.dto.TopicDetailDto;
 import social.roo.model.entity.Topic;
@@ -157,8 +158,8 @@ public class TopicController {
         String username = Auth.loginUser().getUsername();
         topic.setUsername(username);
         // emoji、xss过滤
-        topic.setTitle(RooUtils.cleanContent(topic.getTitle()));
-        topic.setContent(RooUtils.cleanContent(topic.getContent()));
+        topic.setTitle(new InputFilter(topic.getTitle()).cleanXss().toString());
+        topic.setContent(new InputFilter(topic.getContent()).cleanXss().emojiToUnicode().toString());
         try {
             topicService.publish(topic);
             return RestResponse.ok();
@@ -187,8 +188,8 @@ public class TopicController {
             return RestResponse.fail("非法请求");
         }
         // emoji、xss过滤
-        topic.setTitle(RooUtils.cleanContent(topic.getTitle()));
-        topic.setContent(RooUtils.cleanContent(topic.getContent()));
+        topic.setTitle(new InputFilter(topic.getTitle()).cleanXss().toString());
+        topic.setContent(new InputFilter(topic.getContent()).cleanXss().emojiToUnicode().toString());
         topicService.updateTopic(topic);
         return RestResponse.ok();
     }

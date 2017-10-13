@@ -62,10 +62,10 @@ public class TplFunctions {
         String sql = "select a.coid, a.author, b.avatar, a.content, a.created" +
                 " from roo_comment a" +
                 " left join roo_user b on a.author = b.username" +
-                " where a.tid = ?";
+                " where a.tid = ? order by a.coid asc";
 
         List<CommentDto> list = new CommentDto().queryAll(sql, tid);
-        list.forEach(dto -> dto.setContent(RooUtils.mdToHtml(dto.getContent())));
+        list.forEach(dto -> dto.setContent(new InputFilter(dto.getContent()).mdToHtml().toString()));
         return list;
     }
 
