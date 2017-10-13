@@ -17,17 +17,13 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     #if(null == title)
     <title>${settings.site_title}</title>
     #else
     <title>${title} - ${settings.site_title}</title>
     #end
-
-    <meta name="token" content="${csrf_token ?! ''}">
-
     <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="/static/css/bulma.min.css" rel="stylesheet"/>
     <link href="/static/plugins/noty/noty.css" rel="stylesheet"/>
@@ -36,11 +32,11 @@
     <script type="text/javascript" src="/static/js/roo.js?v=${version}"></script>
     <script type="text/javascript">
         Roo.Config = {
-            'current_user_id': "${login_user.uid ?! ''}",
-            'token': "${csrf_token ?! ''}",
-            'upload_url': "${siteUrl('/upload_image')}",
-            'notification_url': "${siteUrl('/notification/count')}",
-            'version': '${version}'
+            current_user: "${login_user.username ?! ''}",
+            token: "${csrf_token ?! ''}",
+            upload_url: "${siteUrl('/upload_image')}",
+            notification_url: "${siteUrl('/notification/count')}",
+            version: '${version}'
         };
     </script>
 </head>

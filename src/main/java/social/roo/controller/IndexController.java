@@ -47,7 +47,18 @@ public class IndexController {
     }
 
     @GetRoute("popular")
-    public String popular() {
+    public String popular(Request request) {
+        return this.popular(1, request);
+    }
+
+    @GetRoute("popular/:page")
+    public String popular(@PathParam Integer page, Request request) {
+        SearchParam searchParam = SearchParam.builder().popular(true).build();
+        searchParam.setOrderBy("a.created desc");
+        searchParam.setPage(page);
+
+        Page<TopicDto> topicDtoPage = topicService.getTopics(searchParam);
+        request.attribute("topics", topicDtoPage.getRows());
         return "popular";
     }
 

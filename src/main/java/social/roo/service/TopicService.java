@@ -52,6 +52,10 @@ public class TopicService {
             args.add(searchParam.getSlug());
         }
 
+        if (searchParam.isPopular()) {
+            where += "and a.popular = 1 ";
+        }
+
         String sql = "select a.tid, a.title, a.username, b.avatar," +
                 "a.node_slug as nodeSlug, a.node_title as nodeTitle," +
                 "a.comments, a.created, a.replyed, a.reply_id as replyId, a.reply_user as replyUser" +

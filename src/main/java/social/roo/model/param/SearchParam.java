@@ -15,6 +15,7 @@ public class SearchParam extends PageParam {
 
     private String q;
     private String slug;
+    private boolean popular;
     private String orderBy = "a.weight desc, a.created desc";
 
 }
