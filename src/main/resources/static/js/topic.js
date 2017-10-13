@@ -62,21 +62,16 @@ $(document).ready(function () {
     // 评论
     var commentEitor = document.getElementById('comment-editor');
     if(commentEitor){
-        commentEitor.split = false;
-        commentEitor.height = '250px';
+        // var mditor = Mditor.fromTextarea(commentEitor);
+        // mditor.split = false;
+        // mditor.height = '250px';
         $('#comment-form #comment').click(function () {
             var content = $("#comment-editor").val();
             if (!content || content.length == 0) {
                 Roo.alertError('请输入评论内容');
                 return;
             }
-            Roo.post("/topic/comment", {
-                    owner: '${login_user.username}',
-                    tid: '${topic.tid}',
-                    content: content,
-                    csrf_token: '${csrf_token}',
-                    type: '1'
-                },
+            Roo.post("/topic/comment", $('#comment-form').serialize(),
                 function (data, textStatus, jqXHR) {
                     console.log(data);
                     if (data && data.success) {

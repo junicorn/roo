@@ -37,7 +37,7 @@
             </div>
             <div class="message-header topic-footer">
                 <div class="has-text-left">
-                    <span>13 个赞</span>&nbsp;·&nbsp;
+                    <span>${topic.likes} 个赞</span>&nbsp;·&nbsp;
                     <span>收藏</span>&nbsp;·&nbsp;
                     #include('../partials/share.html')
                 </div>
@@ -85,10 +85,14 @@
         <div class="message is-light">
             <form id="comment-form">
                 <div class="bd-snippet-preview" style="padding: 10px;">
+                    <input type="hidden" name="owner" value="${login_user.username}"/>
+                    <input type="hidden" name="tid" value="${topic.tid}"/>
+                    <input type="hidden" name="type" value="comment"/>
                     <input type="hidden" name="csrf_token" value="${csrf_token}"/>
+
                     <div class="field">
                         <div class="control">
-                            <textarea id="comment-editor" placeholder="请输入主题内容" required></textarea>
+                            <textarea id="comment-editor" name="content" class="textarea" placeholder="请输入评论" required></textarea>
                         </div>
                     </div>
                     <div class="field is-grouped">
