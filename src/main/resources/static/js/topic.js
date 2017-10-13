@@ -35,9 +35,10 @@ $(document).ready(function () {
                 }
             },
             submitHandler: function () {
+                $('#topic-form #publish-btn').addClass('is-loading');
                 Roo.post("/topic/publish", $('#topic-form').serialize(),
                     function (data, textStatus, jqXHR) {
-                        console.log(data);
+                        $('#topic-form #publish-btn').removeClass('is-loading');
                         if (data && data.success) {
                             Roo.alertOk('主题发布成功', function () {
                                 window.location.href = '/';
@@ -71,9 +72,11 @@ $(document).ready(function () {
                 Roo.alertError('请输入评论内容');
                 return;
             }
+            var btn = $(this);
+            btn.addClass('is-loading');
             Roo.post("/topic/comment", $('#comment-form').serialize(),
                 function (data, textStatus, jqXHR) {
-                    console.log(data);
+                    btn.removeClass('is-loading');
                     if (data && data.success) {
                         Roo.alertOk('评论成功', function () {
                             $("#comment-editor").val('');

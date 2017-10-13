@@ -5,7 +5,6 @@ import com.blade.kit.StringKit;
 import com.blade.mvc.annotation.*;
 import com.blade.mvc.http.Request;
 import com.blade.mvc.ui.RestResponse;
-import com.blade.security.web.csrf.CsrfMiddleware;
 import com.blade.security.web.csrf.CsrfToken;
 import com.blade.validator.annotation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -39,9 +38,6 @@ public class TopicController {
 
     @Inject
     private NodeService nodeService;
-
-    @Inject
-    private CsrfMiddleware csrfMiddleware;
 
     /**
      * 发布新主题页面

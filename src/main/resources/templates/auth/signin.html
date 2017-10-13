@@ -41,7 +41,7 @@
                             </div>
                         </div>
                         <div class="has-text-centered">
-                            <button type="submit" class="button is-success">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;登&nbsp;录&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                            <button id="signin-btn" type="submit" class="button is-success">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;登&nbsp;录&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
                         </div>
                         </p>
                     </div>
@@ -92,7 +92,9 @@
                 }
             },
             submitHandler: function () {
+                $('#signin-form #signin-btn').addClass('is-loading');
                 Roo.post("/signin", $('#signin-form').serialize(),
+                    $('#signin-form #signin-btn').addClass('is-loading');
                     function (data, textStatus, jqXHR) {
                         console.log(data);
                         if (data && data.success) {

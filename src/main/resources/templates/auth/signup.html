@@ -59,7 +59,7 @@
 
                     <div class="field">
                         <p class="control">
-                            <button class="button is-success" type="submit">注册</button>
+                            <button id="signup-btn" class="button is-success" type="submit">注册</button>
                             <a class="button" href="${siteUrl('/signin')}">登录</a>
                         </p>
                     </div>
@@ -128,9 +128,10 @@
                 }
             },
             submitHandler: function () {
+                $('#signup-form #signup-btn').addClass('is-loading');
                 Roo.post("/signup", $('#signup-form').serialize(),
                     function (data, textStatus, jqXHR) {
-                        console.log(data);
+                        $('#signup-form #signup-btn').addClass('is-loading');
                         if (data && data.success) {
                             Roo.alertOk('注册成功');
                         } else {
