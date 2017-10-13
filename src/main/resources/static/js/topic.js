@@ -3,6 +3,7 @@ $(document).ready(function () {
     mditor.on('ready', function () {
         mditor.value = '> 请输入主题内容';
     });
+    mditor.highlight = {};
 
     $("#topic-form").validate({
         rules: {

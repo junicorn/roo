@@ -212,3 +212,24 @@ abbr[title] {
     background: none;
     padding: 3rem 1.5rem 1rem;
 }
+
+.number {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    background-color: #f5f5f5;
+    border-radius: 290486px;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    font-size: .875rem;
+    height: 1em;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin-right: 0;
+    min-width: 1em;
+    padding: 0;
+    text-align: center;
+    vertical-align: middle;
+}
