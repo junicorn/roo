@@ -1,58 +1,99 @@
 $(document).ready(function () {
-    var mditor = Mditor.fromTextarea(document.getElementById('editor'));
-    mditor.on('ready', function () {
-        mditor.value = '> 请输入主题内容';
-    });
-    mditor.highlight = {};
+    // 发帖
+    var editor = document.getElementById('editor');
+    if(editor){
+        var mditor = Mditor.fromTextarea(editor);
+        mditor.on('ready', function () {
+            mditor.value = '> 请输入主题内容';
+        });
 
-    $("#topic-form").validate({
-        rules: {
-            title: {
-                required: true,
-                minlength: 5
+        $("#topic-form").validate({
+            rules: {
+                title: {
+                    required: true,
+                    minlength: 5
+                },
+                editor: {
+                    required: true,
+                    minlength: 5
+                },
+                nodeSlug: {
+                    required: true
+                }
             },
-            editor: {
-                required: true,
-                minlength: 5
+            messages: {
+                title: {
+                    required: '请输入主题标题',
+                    minlength: '标题最少5个字符'
+                },
+                editor: {
+                    required: '请输入主题内容',
+                    minlength: '内容最少5个字符'
+                },
+                nodeSlug: {
+                    required: '请选择节点'
+                }
             },
-            nodeSlug: {
-                required: true
+            submitHandler: function () {
+                Roo.post("/topic/publish", $('#topic-form').serialize(),
+                    function (data, textStatus, jqXHR) {
+                        console.log(data);
+                        if (data && data.success) {
+                            Roo.alertOk('主题发布成功', function () {
+                                window.location.href = '/';
+                            });
+                        } else {
+                            Roo.alertError(data.msg || '主题发布失败', function () {
+                                if (data.code && data.code == 10000) {
+                                    window.location.reload();
+                                }
+                            });
+                        }
+                    });
             }
-        },
-        messages: {
-            title: {
-                required: '请输入主题标题',
-                minlength: '标题最少5个字符'
-            },
-            editor: {
-                required: '请输入主题内容',
-                minlength: '内容最少5个字符'
-            },
-            nodeSlug: {
-                required: '请选择节点'
+        });
+
+        $('#nodeSlug').on('change', function () {
+            $('#nodeTitle').val($("#topic-form #nodeSlug option:selected").text());
+        });
+
+    }
+
+    // 评论
+    var commentEitor = document.getElementById('comment-editor');
+    if(commentEitor){
+        commentEitor.split = false;
+        commentEitor.height = '250px';
+        $('#comment-form #comment').click(function () {
+            var content = $("#comment-editor").val();
+            if (!content || content.length == 0) {
+                Roo.alertError('请输入评论内容');
+                return;
             }
-        },
-        submitHandler: function () {
-            Roo.post("/topic/publish", $('#topic-form').serialize(),
+            Roo.post("/topic/comment", {
+                    owner: '${login_user.username}',
+                    tid: '${topic.tid}',
+                    content: content,
+                    csrf_token: '${csrf_token}',
+                    type: '1'
+                },
                 function (data, textStatus, jqXHR) {
                     console.log(data);
                     if (data && data.success) {
-                        Roo.alertOk('主题发布成功', function () {
-                            window.location.href = '/';
+                        Roo.alertOk('评论成功', function () {
+                            $("#comment-editor").val('');
+                            window.location.reload();
                         });
                     } else {
-                        Roo.alertError(data.msg || '主题发布失败', function () {
+                        Roo.alertError(data.msg || '评论失败', function () {
                             if (data.code && data.code == 10000) {
                                 window.location.reload();
                             }
                         });
                     }
                 });
-        }
-    });
 
-    $('#nodeSlug').on('change', function () {
-        $('#nodeTitle').val($("#topic-form #nodeSlug option:selected").text());
-    });
+        });
+    }
 
 });

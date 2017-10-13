@@ -115,45 +115,7 @@
 
 #tag layout_block("footScript")
 <script type="text/javascript" src="/static/plugins/mditor/js/mditor.min.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        var mditor = Mditor.fromTextarea(document.getElementById('comment-editor'));
-        mditor.split = false;
-        mditor.height = '250px';
-
-        $('#comment-form #comment').click(function () {
-            var content = $("#comment-editor").val();
-            if (!content || content.length == 0) {
-                Roo.alertError('请输入评论内容');
-                return;
-            }
-            Roo.post("/topic/comment", {
-                    owner: '${login_user.username}',
-                    tid: '${topic.tid}',
-                    content: content,
-                    csrf_token: '${csrf_token}',
-                    type: '1'
-                },
-                function (data, textStatus, jqXHR) {
-                    console.log(data);
-                    if (data && data.success) {
-                        Roo.alertOk('评论成功', function () {
-                            $("#comment-editor").val('');
-                            window.location.reload();
-                        });
-                    } else {
-                        Roo.alertError(data.msg || '评论失败', function () {
-                            if (data.code && data.code == 10000) {
-                                window.location.reload();
-                            }
-                        });
-                    }
-                });
-
-        });
-
-    });
-</script>
+<script type="text/javascript" src="/static/js/topic.js"></script>
 #end
 
 #include('../layouts/default.html')
