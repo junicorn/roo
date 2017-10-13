@@ -2,6 +2,7 @@ package social.roo.model.entity;
 
 import com.blade.jdbc.annotation.Table;
 import com.blade.jdbc.core.ActiveRecord;
+import com.blade.validator.annotation.Length;
 import com.blade.validator.annotation.NotEmpty;
 import lombok.Data;
 
@@ -30,12 +31,12 @@ public class Topic extends ActiveRecord {
     /**
      * 主题题目
      */
-    @NotEmpty(message = "请请输入标题")
+    @NotEmpty(message = "请请输入主题标题")
     private String  title;
     /**
      * 主题内容
      */
-    @NotEmpty(message = "请请输入内容")
+    @NotEmpty(message = "请请输入主题内容")
     private String  content;
     /**
      * 创建人
@@ -53,6 +54,12 @@ public class Topic extends ActiveRecord {
      * 帖子权重
      */
     private Double  weight;
+
+    /**
+     * 1: markdown 2: html
+     */
+    private Integer textType;
+
     /**
      * 是否是精华贴
      */

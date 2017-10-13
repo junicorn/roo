@@ -8,6 +8,7 @@ import social.roo.Roo;
 import social.roo.RooConst;
 import social.roo.ext.InputFilter;
 import social.roo.ext.TplFunctions;
+import social.roo.model.dto.Auth;
 import social.roo.model.dto.CommentDto;
 import social.roo.model.dto.TopicDetailDto;
 import social.roo.model.dto.TopicDto;
@@ -63,11 +64,10 @@ public class TopicService {
     }
 
     public TopicDetailDto getTopicDetail(String tid) {
-        String sql = "select a.tid, a.title, a.content, a.username, b.avatar," +
+        String sql = "select a.tid, a.title, a.content, a.username, a.text_type as textType, b.avatar," +
                 "a.node_slug as nodeSlug, a.node_title as nodeTitle," +
                 "a.comments, a.created, b.avatar" +
-                " from roo_topic a" +
-                " left join roo_user b on a.username = b.username" +
+                " from roo_topic a left join roo_user b on a.username = b.username" +
                 " where a.tid = ?";
 
         TopicDetailDto topicDetail = new TopicDetailDto().query(sql, tid);
@@ -76,7 +76,12 @@ public class TopicService {
             List<CommentDto> commentDtos = TplFunctions.comments(tid);
             topicDetail.setCommentList(commentDtos);
         }
-        topicDetail.setContent(new InputFilter(topicDetail.getContent()).unicodeToEmoji().mdToHtml().toString());
+        if (topicDetail.getTextType() == 1) {
+            topicDetail.setContent(new InputFilter(topicDetail.getContent()).unicodeToEmoji().mdToHtml().toString());
+        } else {
+            topicDetail.setContent(new InputFilter(topicDetail.getContent()).unicodeToEmoji().toString());
+        }
+
         topicDetail.setViews(relationService.viewTopic(tid).intValue());
         topicDetail.setLikes(relationService.getTopicLikes(tid));
         topicDetail.setFavorites(relationService.getTopicFavorites(tid));
@@ -163,6 +168,8 @@ public class TopicService {
      * @param topic
      */
     public void publish(Topic topic) {
+
+        // ①. 保存主题到数据库
         Date date = new Date();
         topic.setTid(RooUtils.genTid());
         topic.setCreated(date);
@@ -171,7 +178,7 @@ public class TopicService {
         topic.setWeight(weight);
         topic.save();
 
-        // 帖子数+1
+        // ②. 全站设置帖子数+1
         // settings topics count +1
         Setting setting = new Setting();
         setting.setSkey(RooConst.SETTING_KEY_TOPICS);
@@ -182,21 +189,27 @@ public class TopicService {
         // refresh settings
         Roo.me().refreshSettings();
 
-        // 用户发帖数+1
+        // ③. 用户发帖数+1
         Profile profile = accountService.getProfile(topic.getUsername());
         int     topics  = profile.getTopics() + 1;
         Profile temp    = new Profile();
         temp.setTopics(topics);
         temp.where("username", topic.getUsername()).update();
 
-        // 节点下帖子数+1
+        // ④. 更新用户最后操作时间
+        User u = new User();
+        u.setUpdated(date);
+        Auth.loginUser().setUpdated(date);
+        u.where("username", topic.getUsername()).update();
+
+        // ⑤. 节点下帖子数+1
         Node node       = nodeService.getNode(topic.getNodeSlug());
         int  nodeTopics = node.getTopics() + 1;
         Node nodeTemp   = new Node();
         nodeTemp.setTopics(nodeTopics);
         nodeTemp.where("slug", topic.getNodeSlug()).update();
 
-        // 通知@的人
+        // ⑥. 通知@的人
         Set<String> atUsers = RooUtils.getAtUsers(topic.getContent());
         if (atUsers.size() > 0) {
             atUsers.forEach(username -> {
@@ -241,7 +254,7 @@ public class TopicService {
         comment.setTid(commentParam.getTid());
         comment.setAuthor(commentParam.getAuthor());
         comment.setOwner(commentParam.getOwner());
-        comment.setContent(commentParam.getContent());
+        comment.setContent(new InputFilter(commentParam.getContent()).cleanXss().emojiToUnicode().toString());
         comment.setType(commentParam.getType());
         comment.setCreated(date);
         comment.setState(1);
@@ -253,7 +266,13 @@ public class TopicService {
         upProfile.setComments(profile.getComments() + 1);
         upProfile.update(profile.getUid());
 
-        // ④. 更新全局统计
+        // ④. 更新最后操作时间
+        User u = new User();
+        u.setUpdated(date);
+        Auth.loginUser().setUpdated(date);
+        u.where("username", topic.getUsername()).update();
+
+        // ⑤. 更新全局统计
         Setting setting = new Setting();
         setting.setSkey(RooConst.SETTING_KEY_COMMENTS);
         Setting commentsSetting = setting.find();

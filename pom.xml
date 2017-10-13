@@ -9,7 +9,7 @@
     <version>0.0.1</version>
 
     <properties>
-        <blade-mvc.version>2.0.3-beta</blade-mvc.version>
+        <blade-mvc.version>2.0.3-beta2</blade-mvc.version>
         <commonmark.version>0.9.0</commonmark.version>
         <rome.version>1.0</rome.version>
         <emoji.version>3.2.0</emoji.version>

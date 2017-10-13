@@ -6,7 +6,7 @@
         <div class="message is-light">
             <div class="message-header">注册新用户</div>
             <div class="message-body">
-                <form id="signupForm" method="post">
+                <form id="signup-form" method="post">
                     <div class="field">
                         <div class="control has-icons-left has-icons-right">
                             <input id="username" name="username" class="input" type="text" placeholder="用户名"/>
@@ -59,8 +59,8 @@
 
                     <div class="field">
                         <p class="control">
-                            <button id="signup-btn" class="button is-success" type="button">注册</button>
-                            <a class="button" href="${siteUrl('signin')}">登录</a>
+                            <button class="button is-success" type="submit">注册</button>
+                            <a class="button" href="${siteUrl('/signin')}">登录</a>
                         </p>
                     </div>
                 </form>
@@ -128,15 +128,15 @@
                 }
             },
             submitHandler: function () {
-                var param = $('#signupForm').serializeArray();
-                $.post('/signup', param, function (data) {
-                    if (data && data.success) {
-                    } else {
-                        if (data.msg) {
-                            roo.alertBox(data.msg);
+                Roo.post("/signup", $('#signup-form').serialize(),
+                    function (data, textStatus, jqXHR) {
+                        console.log(data);
+                        if (data && data.success) {
+                            Roo.alertOk('注册成功');
+                        } else {
+                            Roo.alertError(data.msg || '注册失败');
                         }
-                    }
-                });
+                    });
             }
         });
     });

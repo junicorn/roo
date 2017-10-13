@@ -1,4 +1,4 @@
-package social.roo.auth;
+package social.roo.annotation;
 
 import social.roo.enums.UserRole;
 

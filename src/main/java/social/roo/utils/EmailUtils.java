@@ -30,7 +30,7 @@ public class EmailUtils {
     public static void init() {
         try {
             Properties props = new Properties();
-            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.annotation", "true");
             props.put("mail.smtp.ssl.enable", Roo.me().getOrDefault("mail.smtp.ssl.enable", "false"));
             props.put("mail.transport.protocol", "smtp");
             props.put("mail.smtp.timeout", Roo.me().getOrDefault("mail.smtp.timeout", "10000"));

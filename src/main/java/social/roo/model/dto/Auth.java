@@ -6,6 +6,9 @@ import social.roo.RooConst;
 import social.roo.model.entity.User;
 import social.roo.utils.RooUtils;
 
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 import static social.roo.RooConst.LOGIN_SESSION_KEY;
 
 /**
@@ -18,8 +21,21 @@ public class Auth {
         return true;
     }
 
-    public static boolean hasRole(String... roles) {
-        return true;
+    /**
+     * 验证某个操作的频率
+     *
+     * @param seconds 最近的多少秒内允许操作
+     * @return 返回是否在允许的范围内
+     */
+    public static boolean checkFrequency(long seconds) {
+        Date lastUpdated = Auth.loginUser().getUpdated();
+        Date current     = new Date();
+        long diff        = current.getTime() - lastUpdated.getTime();
+        long diffSeconds = diff / 1000;
+        if (seconds <= diffSeconds) {
+            return true;
+        }
+        return false;
     }
 
     public static User loginUser() {

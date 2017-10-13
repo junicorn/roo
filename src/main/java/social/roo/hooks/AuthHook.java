@@ -1,19 +1,15 @@
 package social.roo.hooks;
 
 import com.blade.ioc.annotation.Bean;
-import com.blade.kit.StringKit;
 import com.blade.mvc.hook.Signature;
 import com.blade.mvc.hook.WebHook;
 import com.blade.mvc.http.Request;
 import com.blade.mvc.http.Response;
-import com.blade.mvc.http.Session;
 import lombok.extern.slf4j.Slf4j;
-import social.roo.RooConst;
-import social.roo.auth.Access;
+import social.roo.annotation.Access;
 import social.roo.enums.UserRole;
 import social.roo.model.dto.Auth;
 import social.roo.model.entity.User;
-import social.roo.utils.RooUtils;
 
 import java.lang.reflect.Method;
 

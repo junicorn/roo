@@ -1,12 +1,12 @@
 package social.roo.ext;
 
+import com.blade.security.web.filter.HTMLFilter;
 import com.vdurmont.emoji.EmojiParser;
 import org.commonmark.Extension;
 import org.commonmark.ext.gfm.tables.TablesExtension;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
-import social.roo.utils.RooUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -53,7 +53,12 @@ public class InputFilter {
     }
 
     public InputFilter cleanXss() {
-        this.value = RooUtils.cleanXSS(this.value);
+        this.value = new HTMLFilter().filter(this.value);
+        return this;
+    }
+
+    public InputFilter showHref(boolean blankTab) {
+
         return this;
     }
 

@@ -1,7 +1,5 @@
 package social.roo;
 
-import jdk.nashorn.internal.runtime.OptimisticReturnFilters;
-
 /**
  * Roo常量
  *
@@ -24,11 +22,15 @@ public interface RooConst {
     String SETTING_KEY_COMMENTS = "site_comments";
 
     String LOGIN_SESSION_KEY = "login_user";
-    String LOGIN_COOKIE_KEY = "ROO_U_ID";
+    String LOGIN_COOKIE_KEY  = "ROO_U_ID";
 
     // 名人名言类别
     int TIP_QUOTES    = 1;
     // 社区提示
     int TIP_COMMUNITY = 2;
 
+    // 发帖频率
+    long FREQUENCY_PUBLISH_TOPIC = 60;
+    // 回复频率
+    long FREQUENCY_COMMENT       = 30;
 }

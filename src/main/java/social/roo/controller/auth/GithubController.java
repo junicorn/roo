@@ -6,7 +6,6 @@ import com.blade.mvc.WebContext;
 import com.blade.mvc.annotation.GetRoute;
 import com.blade.mvc.annotation.Param;
 import com.blade.mvc.annotation.Path;
-import com.blade.mvc.http.Request;
 import com.blade.mvc.http.Session;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -14,19 +13,15 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import lombok.extern.slf4j.Slf4j;
-import social.roo.RooConst;
 import social.roo.enums.UserRole;
 import social.roo.model.dto.Auth;
 import social.roo.model.dto.GithubUser;
 import social.roo.model.entity.PlatformUser;
 import social.roo.model.entity.Profile;
 import social.roo.model.entity.User;
-import social.roo.model.param.SignupParam;
 import social.roo.service.AccountService;
 import social.roo.service.PlatformService;
-import social.roo.utils.RooUtils;
 
-import java.time.ZoneId;
 import java.util.Date;
 
 import static social.roo.RooConst.LOGIN_SESSION_KEY;

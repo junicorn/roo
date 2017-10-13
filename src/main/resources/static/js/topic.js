@@ -32,26 +32,21 @@ $(document).ready(function () {
             }
         },
         submitHandler: function () {
-            $.ajax({
-                url: "/topic/publish",
-                type: "POST",
-                data: $('#topic-form').serialize(),
-                success: function (data, textStatus, jqXHR) {
+            Roo.post("/topic/publish", $('#topic-form').serialize(),
+                function (data, textStatus, jqXHR) {
                     console.log(data);
                     if (data && data.success) {
-                        Roo.alertOk('主题发布成功');
+                        Roo.alertOk('主题发布成功', function () {
+                            window.location.href = '/';
+                        });
                     } else {
-                        Roo.alertError(data.msg || '主题发布失败');
+                        Roo.alertError(data.msg || '主题发布失败', function () {
+                            if (data.code && data.code == 10000) {
+                                window.location.reload();
+                            }
+                        });
                     }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    if (jqXHR.status == 400) {
-                        Roo.alertError('没有权限操作');
-                        return;
-                    }
-                    console.error("The following error occurred: " + textStatus, errorThrown);
-                }
-            });
+                });
         }
     });
 

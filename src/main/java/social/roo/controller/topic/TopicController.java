@@ -5,10 +5,13 @@ import com.blade.kit.StringKit;
 import com.blade.mvc.annotation.*;
 import com.blade.mvc.http.Request;
 import com.blade.mvc.ui.RestResponse;
+import com.blade.security.web.csrf.CsrfMiddleware;
 import com.blade.security.web.csrf.CsrfToken;
 import com.blade.validator.annotation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import social.roo.auth.Access;
+import social.roo.RooConst;
+import social.roo.annotation.Access;
+import social.roo.enums.ErrorCode;
 import social.roo.ext.InputFilter;
 import social.roo.model.dto.Auth;
 import social.roo.model.dto.TopicDetailDto;
@@ -17,7 +20,6 @@ import social.roo.model.param.CommentParam;
 import social.roo.service.NodeService;
 import social.roo.service.RelationService;
 import social.roo.service.TopicService;
-import social.roo.utils.RooUtils;
 
 /**
  * 帖子控制器
@@ -37,6 +39,9 @@ public class TopicController {
 
     @Inject
     private NodeService nodeService;
+
+    @Inject
+    private CsrfMiddleware csrfMiddleware;
 
     /**
      * 发布新主题页面
@@ -155,6 +160,11 @@ public class TopicController {
     @CsrfToken(valid = true)
     @JSON
     public RestResponse publish(@Valid Topic topic) {
+        // 发帖频率太快
+        if (!Auth.checkFrequency(RooConst.FREQUENCY_PUBLISH_TOPIC)) {
+            return RestResponse.fail(ErrorCode.OPT_TOO_FAST.getCode(), "发帖频率太快了，每 " + RooConst.FREQUENCY_PUBLISH_TOPIC + " 秒可发布一次主题");
+        }
+
         String username = Auth.loginUser().getUsername();
         topic.setUsername(username);
         // emoji、xss过滤
@@ -202,9 +212,13 @@ public class TopicController {
      */
     @Access
     @PostRoute("comment")
-//    @CsrfToken(valid = true)
+    @CsrfToken(valid = true)
     @JSON
     public RestResponse comment(@Param CommentParam commentParam) {
+        // 回复频率太快
+        if (!Auth.checkFrequency(RooConst.FREQUENCY_COMMENT)) {
+            return RestResponse.fail(ErrorCode.OPT_TOO_FAST.getCode(), "回复频率太快了，每 " + RooConst.FREQUENCY_COMMENT + " 秒可回复一次");
+        }
         try {
             commentParam.setAuthor(Auth.loginUser().getUsername());
             topicService.comment(commentParam);

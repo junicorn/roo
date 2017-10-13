@@ -14,9 +14,10 @@ public class Application {
 
     public static void main(String[] args) {
 //        System.setProperty("java.net.useSystemProxies", "true");
-
+        CsrfMiddleware csrfMiddleware = new CsrfMiddleware();
         Blade.me().use(new ValidatorMiddleware(),
-                new CsrfMiddleware())
+                csrfMiddleware)
+                .register(csrfMiddleware)
                 .start(Application.class, args);
     }
 

@@ -6,7 +6,7 @@
         <div class="message is-light">
             <div class="message-header">登录</div>
             <div class="message-body">
-                <form id="signinForm">
+                <form id="signin-form">
                     <div class="field">
                         <div class="control has-icons-left has-icons-right">
                             <input id="username" name="username" class="input" type="text" placeholder="用户名/邮箱"/>
@@ -41,7 +41,7 @@
                             </div>
                         </div>
                         <div class="has-text-centered">
-                            <button id="signin-btn" type="button" class="button is-success">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;登&nbsp;录&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                            <button type="submit" class="button is-success">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;登&nbsp;录&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
                         </div>
                         </p>
                     </div>
@@ -66,47 +66,44 @@
 </div>
 #end
 #tag layout_block("footScript")
-<script src="/static/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="/static/plugins/jquery.validation/jquery.validate.min.js"></script>
+<script type="text/javascript" src="/static/plugins/jquery.validation/localization/messages_zh.min.js"></script>
 <script type="text/javascript">
-$(document).ready(function () {
-    var signinValidator = $("#signinForm").validate({
-        rules: {
-            username: {
-                required: true,
-                minlength: 4
-            },
-            password: {
-                required: true,
-                minlength: 6
-            }
-        },
-        messages: {
-            username: {
-                required: "请输入用户名",
-                minlength: "请输入4位以上用户名"
-            },
-            password: {
-                required: "请输入密码",
-                minlength: "密码长度不能小于6位"
-            }
-        }
-    });
-
-    $('#signin-btn').click(function () {
-        if (signinValidator.form()) {
-            var param = $('#signinForm').serializeArray();
-            $.post('/signin', param, function (data) {
-                if (data && data.success) {
-                    window.location.href = '/';
-                } else {
-                    if (data.msg) {
-                        roo.alertBox(data.msg);
-                    }
+    $(document).ready(function () {
+        $("#signin-form").validate({
+            rules: {
+                username: {
+                    required: true,
+                    minlength: 4
+                },
+                password: {
+                    required: true,
+                    minlength: 6
                 }
-            });
-        }
+            },
+            messages: {
+                username: {
+                    required: "请输入用户名",
+                    minlength: "请输入4位以上用户名"
+                },
+                password: {
+                    required: "请输入密码",
+                    minlength: "密码长度不能小于6位"
+                }
+            },
+            submitHandler: function () {
+                Roo.post("/signin", $('#signin-form').serialize(),
+                    function (data, textStatus, jqXHR) {
+                        console.log(data);
+                        if (data && data.success) {
+                            window.location.href = '/';
+                        } else {
+                            Roo.alertError(data.msg || '登录失败');
+                        }
+                    });
+            }
+        });
     });
-});
 </script>
 #end
 #include('../layouts/default.html')
