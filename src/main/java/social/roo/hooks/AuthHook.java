@@ -1,6 +1,7 @@
 package social.roo.hooks;
 
 import com.blade.ioc.annotation.Bean;
+import com.blade.ioc.annotation.Inject;
 import com.blade.mvc.hook.Signature;
 import com.blade.mvc.hook.WebHook;
 import com.blade.mvc.http.Request;

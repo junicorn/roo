@@ -14,8 +14,8 @@ import com.blade.mvc.annotation.PathParam;
 public class UserController {
 
     @GetRoute("/@:username")
-    public String showProfile(@PathParam String username){
-        System.out.println(username);
+    public String showProfile(@PathParam String username) {
+
         return "users/profile.html";
     }
 
